@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.gyf.barlibrary.ImmersionBar;
 import com.jess.arms.base.delegate.IActivity;
 import com.jess.arms.mvp.IPresenter;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
@@ -24,6 +25,7 @@ import static com.jess.arms.utils.ThirdViewUtil.convertAutoView;
 public abstract class BaseActivity<P extends IPresenter> extends RxAppCompatActivity implements IActivity {
     protected final String TAG = this.getClass().getSimpleName();
     private Unbinder mUnbinder;
+    public ImmersionBar mImmersionBar;
     @Inject
     protected P mPresenter;
 
@@ -40,8 +42,10 @@ public abstract class BaseActivity<P extends IPresenter> extends RxAppCompatActi
             int layoutResID = initView(savedInstanceState);
             if (layoutResID != 0) {//如果initView返回0,框架则不会调用setContentView(),当然也不会 Bind ButterKnife
                 setContentView(layoutResID);
-                //绑定到butterknife
+                //绑定到ButterKnife
                 mUnbinder = ButterKnife.bind(this);
+                if (isImmersionBarEnabled())
+                    initImmersionBar();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,6 +62,14 @@ public abstract class BaseActivity<P extends IPresenter> extends RxAppCompatActi
         if (mPresenter != null)
             mPresenter.onDestroy();//释放资源
         this.mPresenter = null;
+        if (mImmersionBar != null)
+            mImmersionBar.destroy();
+
+    }
+
+    protected void initImmersionBar() {
+        mImmersionBar = ImmersionBar.with(this);
+        mImmersionBar.init();
     }
 
     /**
@@ -80,4 +92,14 @@ public abstract class BaseActivity<P extends IPresenter> extends RxAppCompatActi
     public boolean useFragment() {
         return true;
     }
+
+    /**
+     * 是否使用沉浸式
+     *
+     * @return the boolean
+     */
+    protected boolean isImmersionBarEnabled() {
+        return true;
+    }
+
 }

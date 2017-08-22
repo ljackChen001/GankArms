@@ -7,10 +7,8 @@ import android.net.ParseException;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.text.TextUtils;
 
 import com.cbl.gankarms.BuildConfig;
-import com.cbl.gankarms.R;
 import com.cbl.gankarms.mvp.model.api.Api;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonParseException;
@@ -22,12 +20,11 @@ import com.jess.arms.http.GlobalHttpHandler;
 import com.jess.arms.http.RequestInterceptor;
 import com.jess.arms.integration.ConfigModule;
 import com.jess.arms.utils.UiUtils;
+import com.readystatesoftware.chuck.ChuckInterceptor;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
@@ -67,19 +64,20 @@ public class GlobalConfiguration implements ConfigModule {
                     public Response onHttpResultResponse(String httpResult, Interceptor.Chain chain, Response response) {
                         /* 这里可以先客户端一步拿到每一次http请求的结果,可以解析成json,做一些操作,如检测到token过期后
                            重新请求token,并重新执行请求 */
-                        try {
-                            if (!TextUtils.isEmpty(httpResult) && RequestInterceptor.isJson(response.body().contentType())) {
-                                JSONArray array = new JSONArray(httpResult);
-                                JSONObject object = (JSONObject) array.get(0);
-                                String login = object.getString("login");
-                                String avatar_url = object.getString("avatar_url");
-                                Timber.w("Result ------> " + login + "    ||   Avatar_url------> " + avatar_url);
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            return response;
-                        }
+//                        try {
+//                            if (!TextUtils.isEmpty(httpResult) && RequestInterceptor.isJson(response.body().contentType())) {
+//                                JSONArray array = new JSONArray(httpResult);
+////                                JSONObject object = (JSONObject) array.get(0);
+//                                //                                String login = object.getString("login");
+//                                //                                String avatar_url = object.getString("avatar_url");
+//                                //                                Timber.w("Result ------> " + login + "    ||
+//                                // Avatar_url------> " + avatar_url);
+//                            }
+//
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                            return response;
+//                        }
 
                      /* 这里如果发现token过期,可以先请求最新的token,然后在拿新的token放入request里去重新请求
                         注意在这个回调之前已经调用过proceed,所以这里必须自己去建立网络请求,如使用okhttp使用新的request去请求
@@ -102,7 +100,21 @@ public class GlobalConfiguration implements ConfigModule {
                         /* 如果需要再请求服务器之前做一些操作,则重新返回一个做过操作的的requeat如增加header,不做操作则直接返回request参数
                            return chain.request().newBuilder().header("token", tokenId)
                                   .build(); */
-                        return request;
+
+                        return chain.request().newBuilder()
+                                .addHeader("X-Location", "")
+                                .addHeader("X-Client-Version", "3.2.5")
+                                .addHeader("X-Channel-Code", "lsp-yyb")
+                                .addHeader("X-Client-Agent", "360_1603-A02_6.0")
+                                .addHeader("X-Long-Token", "")
+                                .addHeader("X-Platform-Version", "6.0")
+                                .addHeader("X-Client-Hash", "3c0570795e37e3ffc81b1e18bc4fe228")
+                                .addHeader("X-User-ID", "")
+                                .addHeader("X-Platform-Type", "2")
+                                .addHeader("X-Client-ID", "99000859074820")
+                                .addHeader("X-Serial-Num", String.valueOf(System.currentTimeMillis() / 1000L))
+                                .addHeader("Accept-Encoding","gzip")
+                                .build();
                     }
                 })
                 .responseErrorListener((context1, t) -> {
@@ -130,10 +142,13 @@ public class GlobalConfiguration implements ConfigModule {
                     .enableComplexMapKeySerialization();
         }).retrofitConfiguration((context1, retrofitBuilder) -> {
             //这里可以自己自定义配置Retrofit的参数,甚至你可以替换系统配置好的okhttp对象
+
             // retrofitBuilder.addConverterFactory(FastJsonConverterFactory.create());//比如使用fastjson替代gson
         }).okhttpConfiguration((context1, okhttpBuilder) -> {
             //这里可以自己自定义配置Okhttp的参数
-            okhttpBuilder.writeTimeout(10, TimeUnit.SECONDS);
+            okhttpBuilder.writeTimeout(10, TimeUnit.SECONDS)
+                    .addInterceptor(new ChuckInterceptor(context1));
+
             //开启使用一行代码监听 Retrofit／Okhttp 上传下载进度监听,以及 Glide 加载进度监听 详细使用方法查看 https://github
             // .com/JessYanCoding/ProgressManager
             //                    ProgressManager.getInstance().with(okhttpBuilder);
@@ -187,12 +202,6 @@ public class GlobalConfiguration implements ConfigModule {
         lifecycles.add(new Application.ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                ImmersionBar.with(activity)
-                        .fitsSystemWindows(true)
-                        .statusBarColor(R.color.colorPrimary)
-                        .keyboardEnable(true)
-                        .navigationBarColor(R.color.colorPrimary)
-                        .navigationBarWithKitkatEnable(false).init();
                 Timber.w(activity + " - onActivityCreated");
             }
 
@@ -279,6 +288,7 @@ public class GlobalConfiguration implements ConfigModule {
                         .extras()
                         .get(RefWatcher.class.getName()))
                         .watch(f);
+                ImmersionBar.with(f).destroy();
             }
         });
     }

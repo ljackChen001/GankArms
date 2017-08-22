@@ -128,6 +128,7 @@
     <orderEntry type="library" exported="" name="autolayout-1.4.5" level="project" />
     <orderEntry type="library" exported="" name="okhttp-3.8.0" level="project" />
     <orderEntry type="library" exported="" name="rxlifecycle-components-2.1.0" level="project" />
+    <orderEntry type="library" exported="" name="barlibrary-2.2.8" level="project" />
     <orderEntry type="library" exported="" name="support-v4-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="support-media-compat-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="timber-4.5.1" level="project" />

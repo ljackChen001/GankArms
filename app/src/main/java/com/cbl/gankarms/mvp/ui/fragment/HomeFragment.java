@@ -3,23 +3,39 @@ package com.cbl.gankarms.mvp.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.cbl.gankarms.R;
 import com.cbl.gankarms.di.component.DaggerHomeComponent;
 import com.cbl.gankarms.di.module.HomeModule;
 import com.cbl.gankarms.mvp.contract.HomeContract;
+import com.cbl.gankarms.mvp.model.bean.CategoryListBean;
 import com.cbl.gankarms.mvp.presenter.HomePresenter;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.UiUtils;
 
+import java.util.List;
+
+import butterknife.BindView;
+
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
 
 public class HomeFragment extends BaseFragment<HomePresenter> implements HomeContract.View {
+
+
+    @BindView(R.id.viewpager)
+    ViewPager mViewPager;
+    @BindView(R.id.tabs)
+    TabLayout mTabLayout;
+    @BindView(R.id.toolbar_iv_target)
+    ImageView toolbarIvTarget;
 
 
     public static HomeFragment newInstance() {
@@ -45,6 +61,10 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     @Override
     public void initData(Bundle savedInstanceState) {
+        //        mTabLayout.addTab();
+        mPresenter.getCategorys();
+        mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
     }
 
@@ -93,4 +113,13 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     }
 
+
+    @Override
+    public void getCategroySuccess(List<CategoryListBean.CategoryList> categoryList) {
+        if (categoryList != null) {
+            for (int i = 0; i < categoryList.size(); i++) {
+                mTabLayout.addTab(mTabLayout.newTab().setText(categoryList.get(i).getName()));
+            }
+        }
+    }
 }

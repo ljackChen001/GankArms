@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.cbl.gankarms.app.EventBusTags;
@@ -29,12 +28,14 @@ import static com.cbl.gankarms.app.EventBusTags.ACTIVITY_FRAGMENT_REPLACE;
 
 @Route(path = EventBusTags.AROUTER_PATH_MAIN)
 public class MainActivity extends BaseActivity {
-    @BindView(R.id.toolbar_title)
-    TextView mToolbarTitle;
+//    @BindView(R.id.toolbar_title)
+//    TextView mToolbarTitle;
     @BindView(R.id.bottom_navigation_bar)
     BottomNavigationView mBottomNavigationBar;
+//    @BindView(R.id.toolbar)
+//    Toolbar mToolbar;
     private List<Fragment> fragmentList;
-    private List<Integer> mTitles;
+//    private List<Integer> mTitles;
     private int mReplace = 0;
 
     @Override
@@ -50,15 +51,15 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        this.setTitle(R.string.title_home);
-        if (mTitles == null) {
-            mTitles = new ArrayList<>();
-            mTitles.add(R.string.title_home);
-            mTitles.add(R.string.title_live);
-            mTitles.add(R.string.title_subscribe);
-            mTitles.add(R.string.title_shoot_off);
-            mTitles.add(R.string.title_mine);
-        }
+//        this.setTitle(R.string.title_home);
+//        if (mTitles == null) {
+//            mTitles = new ArrayList<>();
+//            mTitles.add(R.string.title_home);
+//            mTitles.add(R.string.title_live);
+//            mTitles.add(R.string.title_subscribe);
+//            mTitles.add(R.string.title_shoot_off);
+//            mTitles.add(R.string.title_mine);
+//        }
         initFragments(savedInstanceState);
         mBottomNavigationBar.setItemIconTintList(null);
         BottomNavigationViewHelper.disableShiftMode(mBottomNavigationBar);
@@ -80,7 +81,7 @@ public class MainActivity extends BaseActivity {
                     mReplace = 4;
                     break;
             }
-            mToolbarTitle.setText(mTitles.get(mReplace));
+//            mToolbarTitle.setText(mTitles.get(mReplace));
             FragmentUtils.hideAllShowFragment(fragmentList.get(mReplace));
             return true;
         });
@@ -127,16 +128,18 @@ public class MainActivity extends BaseActivity {
             fragmentList.add(shootOffFragment);
             fragmentList.add(mineFragment);
         }
+
         FragmentUtils.addFragments(getSupportFragmentManager(), fragmentList, R.id.content, 0);
+
     }
 
     @Override
     public void onBackPressed() {
-        //        if (mReplace != 0) {
-        //            mReplace = 0;
-        //        } else {
-        //            super.onBackPressed();
-        //        }
+        if (mReplace != 0) {
+            mReplace = 0;
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -149,7 +152,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        this.mTitles = null;
+//        this.mTitles = null;
         this.fragmentList = null;
     }
 }
