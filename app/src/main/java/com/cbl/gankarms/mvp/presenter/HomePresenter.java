@@ -43,14 +43,11 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
                 .subscribe(new ErrorHandleSubscriber<CategoryListBean>(mErrorHandler) {
                     @Override
                     public void onNext(@NonNull CategoryListBean categoryListBeen) {
-//                        CategoryListBean.CategoryList categoryList = (CategoryListBean.CategoryList) categoryListBeen
-//                                .getCategoryList();
                         mRootView.getCategroySuccess(categoryListBeen.getCategoryList());
                     }
                 });
     }
 
-    ;
 
     @Override
     public void onDestroy() {

@@ -5,16 +5,17 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by chenbaolin on 2017/8/22.
  */
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
-    private ArrayList<String> titleList;
-    private ArrayList<Fragment> fragmentList;
+    private List<String> titleList;
+    private List<Fragment> fragmentList;
 
-    public ViewPagerAdapter(FragmentManager fm, ArrayList<String> titleList, ArrayList<Fragment> fragmentList) {
+    public ViewPagerAdapter(FragmentManager fm, List<String> titleList, ArrayList<Fragment> fragmentList) {
         super(fm);
         this.titleList = titleList;
         this.fragmentList = fragmentList;

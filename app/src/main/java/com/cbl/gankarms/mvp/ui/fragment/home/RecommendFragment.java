@@ -1,75 +1,70 @@
-package com.cbl.gankarms.mvp.ui.fragment;
+package com.cbl.gankarms.mvp.ui.fragment.home;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.cbl.gankarms.R;
-import com.cbl.gankarms.di.component.DaggerHomeComponent;
-import com.cbl.gankarms.di.module.HomeModule;
-import com.cbl.gankarms.mvp.contract.HomeContract;
-import com.cbl.gankarms.mvp.model.bean.CategoryListBean;
-import com.cbl.gankarms.mvp.presenter.HomePresenter;
-import com.cbl.gankarms.mvp.ui.adapter.ViewPagerAdapter;
-import com.cbl.gankarms.mvp.ui.fragment.home.RecommendFragment;
+import com.cbl.gankarms.di.component.DaggerRecommendComponent;
+import com.cbl.gankarms.di.module.RecommendModule;
+import com.cbl.gankarms.mvp.model.bean.RecommendBean;
+import com.cbl.gankarms.mvp.ui.adapter.ContListAdapter;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
+import com.jess.arms.utils.LogUtils;
 import com.jess.arms.utils.UiUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
 
-public class HomeFragment extends BaseFragment<HomePresenter> implements HomeContract.View {
+public class RecommendFragment extends BaseFragment<RecommendPresenter> implements RecommendContract.View {
 
 
-    @BindView(R.id.viewpager)
-    ViewPager mViewPager;
-    @BindView(R.id.tabs)
-    TabLayout mTabLayout;
-    @BindView(R.id.toolbar_iv_target)
-    ImageView toolbarIvTarget;
+    @BindView(R.id.tv)
+    TextView tv;
+    @BindView(R.id.recycler_view)
+    RecyclerView mRecyclerView;
 
-    ViewPagerAdapter viewPagerAdapter;
-    private ArrayList<Fragment> fragmentList ;
-    private List<String> mTitle;
-
-    public static HomeFragment newInstance() {
-        HomeFragment fragment = new HomeFragment();
+    public static RecommendFragment newInstance() {
+        RecommendFragment fragment = new RecommendFragment();
         return fragment;
-
     }
 
     @Override
     public void setupFragmentComponent(AppComponent appComponent) {
-        DaggerHomeComponent //如找不到该类,请编译一下项目
+        DaggerRecommendComponent //如找不到该类,请编译一下项目
                 .builder()
                 .appComponent(appComponent)
-                .homeModule(new HomeModule(this))
+                .recommendModule(new RecommendModule(this))
                 .build()
                 .inject(this);
     }
 
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return inflater.inflate(R.layout.layout_list_recyclerview, container, false);
     }
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        //        mTabLayout.addTab();
-        mPresenter.getCategorys();
+        tv.setOnClickListener(v -> mPresenter.getRecommendList("1", "10"));
+
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        JCVideoPlayer.releaseAllVideos();
     }
 
     /**
@@ -119,20 +114,27 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
 
     @Override
-    public void getCategroySuccess(List<CategoryListBean.CategoryList> categoryList) {
-        mTitle = new ArrayList<>();
-        fragmentList=new ArrayList<>();
-        if (categoryList != null) {
-            for (int i = 0; i < categoryList.size(); i++) {
-                //                mTabLayout.addTab(mTabLayout.newTab().setText(categoryList.get(i).getName()));
-                mTitle.add(categoryList.get(i).getName());
-            }
-            fragmentList.add(new RecommendFragment());
-            mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-            viewPagerAdapter = new ViewPagerAdapter(getFragmentManager(), mTitle, fragmentList);
-            mViewPager.setAdapter(viewPagerAdapter);
-            mTabLayout.setupWithViewPager(mViewPager, true);
-            mTabLayout.setTabsFromPagerAdapter(viewPagerAdapter);
+    public void getRecommendSuccess(List<RecommendBean.DataListBean> dataList) {
+
+        for (int i = 0; i < dataList.size(); i++) {
+            LogUtils.debugInfo(dataList.get(i).getNodeType()+"++");
         }
+    }
+
+    @Override
+    public void getContListSuccess() {
+
+    }
+
+    @Override
+    public void setAdapter(ContListAdapter mAdapter) {
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(manager);
+        mRecyclerView.setAdapter(mAdapter);
+        initRecyclerView();
+    }
+
+    private void initRecyclerView() {
+
     }
 }
