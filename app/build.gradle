@@ -62,6 +62,7 @@ dependencies {
     compile rootProject.ext.dependencies["bottom-navigation"]
     compile rootProject.ext.dependencies["status-bar"]
     compile rootProject.ext.dependencies["videoplayer"]
+    compile rootProject.ext.dependencies["GSYVideoPlayer"]
 
     //test
     testCompile rootProject.ext.dependencies["junit"]

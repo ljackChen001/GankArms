@@ -45,7 +45,7 @@ public class AutoToolbar extends Toolbar {
 
     @Override
     public LayoutParams generateLayoutParams(AttributeSet attrs) {
-        return new AutoToolbar.LayoutParams(getContext(), attrs);
+        return new LayoutParams(getContext(), attrs);
     }
 
 

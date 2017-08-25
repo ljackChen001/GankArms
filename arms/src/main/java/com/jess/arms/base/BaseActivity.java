@@ -25,9 +25,9 @@ import static com.jess.arms.utils.ThirdViewUtil.convertAutoView;
 public abstract class BaseActivity<P extends IPresenter> extends RxAppCompatActivity implements IActivity {
     protected final String TAG = this.getClass().getSimpleName();
     private Unbinder mUnbinder;
-    public ImmersionBar mImmersionBar;
     @Inject
     protected P mPresenter;
+    public ImmersionBar mImmersionBar;
 
     @Override
     public View onCreateView(String name, Context context, AttributeSet attrs) {
@@ -42,7 +42,7 @@ public abstract class BaseActivity<P extends IPresenter> extends RxAppCompatActi
             int layoutResID = initView(savedInstanceState);
             if (layoutResID != 0) {//如果initView返回0,框架则不会调用setContentView(),当然也不会 Bind ButterKnife
                 setContentView(layoutResID);
-                //绑定到ButterKnife
+                //绑定到butterknife
                 mUnbinder = ButterKnife.bind(this);
                 if (isImmersionBarEnabled())
                     initImmersionBar();
@@ -64,7 +64,6 @@ public abstract class BaseActivity<P extends IPresenter> extends RxAppCompatActi
         this.mPresenter = null;
         if (mImmersionBar != null)
             mImmersionBar.destroy();
-
     }
 
     protected void initImmersionBar() {

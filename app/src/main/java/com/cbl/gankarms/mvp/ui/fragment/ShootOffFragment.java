@@ -14,7 +14,7 @@ import com.cbl.gankarms.mvp.contract.ShootOffContract;
 import com.cbl.gankarms.mvp.presenter.ShootOffPresenter;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
-import com.jess.arms.utils.UiUtils;
+import com.jess.arms.utils.ArmsUtils;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -78,13 +78,13 @@ public class ShootOffFragment extends BaseFragment<ShootOffPresenter> implements
     @Override
     public void showMessage(@NonNull String message) {
         checkNotNull(message);
-        UiUtils.snackbarText(message);
+        ArmsUtils.snackbarText(message);
     }
 
     @Override
     public void launchActivity(@NonNull Intent intent) {
         checkNotNull(intent);
-        UiUtils.startActivity(intent);
+        ArmsUtils.startActivity(intent);
     }
 
     @Override

@@ -28,14 +28,14 @@ import static com.cbl.gankarms.app.EventBusTags.ACTIVITY_FRAGMENT_REPLACE;
 
 @Route(path = EventBusTags.AROUTER_PATH_MAIN)
 public class MainActivity extends BaseActivity {
-//    @BindView(R.id.toolbar_title)
-//    TextView mToolbarTitle;
+    //    @BindView(R.id.toolbar_title)
+    //    TextView mToolbarTitle;
     @BindView(R.id.bottom_navigation_bar)
     BottomNavigationView mBottomNavigationBar;
-//    @BindView(R.id.toolbar)
-//    Toolbar mToolbar;
+    //    @BindView(R.id.toolbar)
+    //    Toolbar mToolbar;
     private List<Fragment> fragmentList;
-//    private List<Integer> mTitles;
+    //    private List<Integer> mTitles;
     private int mReplace = 0;
 
     @Override
@@ -51,15 +51,16 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initData(Bundle savedInstanceState) {
-//        this.setTitle(R.string.title_home);
-//        if (mTitles == null) {
-//            mTitles = new ArrayList<>();
-//            mTitles.add(R.string.title_home);
-//            mTitles.add(R.string.title_live);
-//            mTitles.add(R.string.title_subscribe);
-//            mTitles.add(R.string.title_shoot_off);
-//            mTitles.add(R.string.title_mine);
-//        }
+        //        this.setTitle(R.string.title_home);
+        //        if (mTitles == null) {
+        //            mTitles = new ArrayList<>();
+        //            mTitles.add(R.string.title_home);
+        //            mTitles.add(R.string.title_live);
+        //            mTitles.add(R.string.title_subscribe);
+        //            mTitles.add(R.string.title_shoot_off);
+        //            mTitles.add(R.string.title_mine);
+        //        }
+
         initFragments(savedInstanceState);
         mBottomNavigationBar.setItemIconTintList(null);
         BottomNavigationViewHelper.disableShiftMode(mBottomNavigationBar);
@@ -81,7 +82,7 @@ public class MainActivity extends BaseActivity {
                     mReplace = 4;
                     break;
             }
-//            mToolbarTitle.setText(mTitles.get(mReplace));
+            //            mToolbarTitle.setText(mTitles.get(mReplace));
             FragmentUtils.hideAllShowFragment(fragmentList.get(mReplace));
             return true;
         });
@@ -140,7 +141,10 @@ public class MainActivity extends BaseActivity {
         } else {
             super.onBackPressed();
         }
+        super.onBackPressed();
     }
+
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -152,7 +156,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        this.mTitles = null;
+        //        this.mTitles = null;
         this.fragmentList = null;
     }
 }

@@ -14,7 +14,7 @@ ext {
             retrofitSdkVersion      : "2.3.0",
             dagger2SdkVersion       : "2.11",
             glideSdkVersion         : "4.0.0",
-            butterknifeSdkVersion   : "8.7.0",
+            butterknifeSdkVersion   : "8.8.1",
             rxlifecycle2SdkVersion  : "2.1.0",
             espressoSdkVersion      : "2.2.2",
             canarySdkVersion        : "1.5.1"
@@ -85,7 +85,8 @@ ext {
             "mtrva"                   : 'com.crazysunj:multitypeadapter:1.7.0',
             "bottom-navigation"       : 'com.aurelhubert:ahbottomnavigation:2.0.6',
             "status-bar"              : 'com.gyf.barlibrary:barlibrary:2.2.8',
-            "videoplayer"             : 'fm.jiecao:jiecaovideoplayer:5.8.1'
+            "videoplayer"             : 'fm.jiecao:jiecaovideoplayer:5.8.1',
+            "GSYVideoPlayer"             : 'com.shuyu:GSYVideoPlayer:2.0.4'
 
     ]
 

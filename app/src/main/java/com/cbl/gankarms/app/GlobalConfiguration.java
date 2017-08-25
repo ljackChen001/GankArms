@@ -19,7 +19,7 @@ import com.jess.arms.di.module.GlobalConfigModule;
 import com.jess.arms.http.GlobalHttpHandler;
 import com.jess.arms.http.RequestInterceptor;
 import com.jess.arms.integration.ConfigModule;
-import com.jess.arms.utils.UiUtils;
+import com.jess.arms.utils.ArmsUtils;
 import com.readystatesoftware.chuck.ChuckInterceptor;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
@@ -31,6 +31,7 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import butterknife.ButterKnife;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -64,20 +65,24 @@ public class GlobalConfiguration implements ConfigModule {
                     public Response onHttpResultResponse(String httpResult, Interceptor.Chain chain, Response response) {
                         /* 这里可以先客户端一步拿到每一次http请求的结果,可以解析成json,做一些操作,如检测到token过期后
                            重新请求token,并重新执行请求 */
-//                        try {
-//                            if (!TextUtils.isEmpty(httpResult) && RequestInterceptor.isJson(response.body().contentType())) {
-//                                JSONArray array = new JSONArray(httpResult);
-////                                JSONObject object = (JSONObject) array.get(0);
-//                                //                                String login = object.getString("login");
-//                                //                                String avatar_url = object.getString("avatar_url");
-//                                //                                Timber.w("Result ------> " + login + "    ||
-//                                // Avatar_url------> " + avatar_url);
-//                            }
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                            return response;
-//                        }
+                        //                        try {
+                        //                            if (!TextUtils.isEmpty(httpResult) && RequestInterceptor.isJson
+                        // (response.body().contentType())) {
+                        //                                JSONArray array = new JSONArray(httpResult);
+                        ////                                JSONObject object = (JSONObject) array.get(0);
+                        //                                //                                String login = object
+                        // .getString("login");
+                        //                                //                                String avatar_url = object
+                        // .getString("avatar_url");
+                        //                                //                                Timber.w("Result ------> " +
+                        // login + "    ||
+                        //                                // Avatar_url------> " + avatar_url);
+                        //                            }
+                        //
+                        //                        } catch (JSONException e) {
+                        //                            e.printStackTrace();
+                        //                            return response;
+                        //                        }
 
                      /* 这里如果发现token过期,可以先请求最新的token,然后在拿新的token放入request里去重新请求
                         注意在这个回调之前已经调用过proceed,所以这里必须自己去建立网络请求,如使用okhttp使用新的request去请求
@@ -113,7 +118,7 @@ public class GlobalConfiguration implements ConfigModule {
                                 .addHeader("X-Platform-Type", "2")
                                 .addHeader("X-Client-ID", "99000859074820")
                                 .addHeader("X-Serial-Num", String.valueOf(System.currentTimeMillis() / 1000L))
-                                .addHeader("Accept-Encoding","gzip")
+                                .addHeader("Accept-Encoding", "gzip")
                                 .build();
                     }
                 })
@@ -134,7 +139,7 @@ public class GlobalConfiguration implements ConfigModule {
                             JSONException || t instanceof JsonIOException) {
                         msg = "数据解析错误";
                     }
-                    UiUtils.snackbarText(msg);
+                    ArmsUtils.snackbarText(msg);
                 }).gsonConfiguration((context1, gsonBuilder) -> {
             //这里可以自己自定义配置Gson的参数
             gsonBuilder.serializeNulls()//支持序列化null的参数
@@ -184,6 +189,8 @@ public class GlobalConfiguration implements ConfigModule {
                     //                            Logger.log(priority, tag, message, t);
                     //                        }
                     //                    });
+
+                    ButterKnife.setDebug(true);
                 }
                 //leakCanary内存泄露检查
                 ((App) application).getAppComponent().extras().put(RefWatcher.class.getName(), BuildConfig.USE_CANARY ?

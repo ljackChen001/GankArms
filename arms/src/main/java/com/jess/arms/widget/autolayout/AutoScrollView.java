@@ -45,7 +45,7 @@ public class AutoScrollView extends ScrollView {
 
     @Override
     public LayoutParams generateLayoutParams(AttributeSet attrs) {
-        return new AutoScrollView.LayoutParams(getContext(), attrs);
+        return new LayoutParams(getContext(), attrs);
     }
 
 

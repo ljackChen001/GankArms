@@ -19,9 +19,10 @@ import com.cbl.gankarms.mvp.model.bean.CategoryListBean;
 import com.cbl.gankarms.mvp.presenter.HomePresenter;
 import com.cbl.gankarms.mvp.ui.adapter.ViewPagerAdapter;
 import com.cbl.gankarms.mvp.ui.fragment.home.RecommendFragment;
+import com.jess.arms.base.AdapterViewPager;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
-import com.jess.arms.utils.UiUtils;
+import com.jess.arms.utils.ArmsUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     ImageView toolbarIvTarget;
 
     ViewPagerAdapter viewPagerAdapter;
-    private ArrayList<Fragment> fragmentList ;
+    private ArrayList<Fragment> fragmentList;
     private List<String> mTitle;
 
     public static HomeFragment newInstance() {
@@ -70,6 +71,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     public void initData(Bundle savedInstanceState) {
         //        mTabLayout.addTab();
         mPresenter.getCategorys();
+        //        mTitle = new ArrayList<>();
+        //        fragmentList = new ArrayList<>();
+
     }
 
     /**
@@ -103,13 +107,13 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @Override
     public void showMessage(@NonNull String message) {
         checkNotNull(message);
-        UiUtils.snackbarText(message);
+        ArmsUtils.snackbarText(message);
     }
 
     @Override
     public void launchActivity(@NonNull Intent intent) {
         checkNotNull(intent);
-        UiUtils.startActivity(intent);
+        ArmsUtils.startActivity(intent);
     }
 
     @Override
@@ -117,11 +121,10 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     }
 
-
     @Override
     public void getCategroySuccess(List<CategoryListBean.CategoryList> categoryList) {
         mTitle = new ArrayList<>();
-        fragmentList=new ArrayList<>();
+        fragmentList = new ArrayList<>();
         if (categoryList != null) {
             for (int i = 0; i < categoryList.size(); i++) {
                 //                mTabLayout.addTab(mTabLayout.newTab().setText(categoryList.get(i).getName()));
@@ -129,10 +132,12 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             }
             fragmentList.add(new RecommendFragment());
             mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-            viewPagerAdapter = new ViewPagerAdapter(getFragmentManager(), mTitle, fragmentList);
+            AdapterViewPager viewPagerAdapter = new AdapterViewPager(getChildFragmentManager(), fragmentList, mTitle);
+            mViewPager.setCurrentItem(0);
             mViewPager.setAdapter(viewPagerAdapter);
             mTabLayout.setupWithViewPager(mViewPager, true);
             mTabLayout.setTabsFromPagerAdapter(viewPagerAdapter);
         }
     }
+
 }

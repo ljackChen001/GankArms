@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 
-import com.jess.arms.base.App;
+import com.jess.arms.utils.ArmsUtils;
 
 import org.simple.eventbus.EventBus;
 
@@ -21,13 +21,13 @@ import timber.log.Timber;
  */
 
 public class FragmentDelegateImpl implements FragmentDelegate {
-    private android.support.v4.app.FragmentManager mFragmentManager;
-    private android.support.v4.app.Fragment mFragment;
+    private FragmentManager mFragmentManager;
+    private Fragment mFragment;
     private IFragment iFragment;
     private Unbinder mUnbinder;
 
 
-    public FragmentDelegateImpl(android.support.v4.app.FragmentManager fragmentManager, android.support.v4.app.Fragment fragment) {
+    public FragmentDelegateImpl(FragmentManager fragmentManager, Fragment fragment) {
         this.mFragmentManager = fragmentManager;
         this.mFragment = fragment;
         this.iFragment = (IFragment) fragment;
@@ -42,7 +42,7 @@ public class FragmentDelegateImpl implements FragmentDelegate {
     public void onCreate(Bundle savedInstanceState) {
         if (iFragment.useEventBus())//如果要使用eventbus请将此方法返回true
             EventBus.getDefault().register(mFragment);//注册到事件主线
-        iFragment.setupFragmentComponent(((App) mFragment.getActivity().getApplication()).getAppComponent());
+        iFragment.setupFragmentComponent(ArmsUtils.obtainAppComponentFromContext(mFragment.getActivity()));
     }
 
     @Override

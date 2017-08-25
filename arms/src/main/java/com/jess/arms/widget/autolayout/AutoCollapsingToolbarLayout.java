@@ -43,7 +43,7 @@ public class AutoCollapsingToolbarLayout extends CollapsingToolbarLayout {
 
     @Override
     public LayoutParams generateLayoutParams(AttributeSet attrs) {
-        return new AutoCollapsingToolbarLayout.LayoutParams(getContext(), attrs);
+        return new LayoutParams(getContext(), attrs);
     }
 
 

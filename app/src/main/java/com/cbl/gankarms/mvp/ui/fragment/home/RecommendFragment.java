@@ -3,6 +3,7 @@ package com.cbl.gankarms.mvp.ui.fragment.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,12 +16,10 @@ import com.cbl.gankarms.di.component.DaggerRecommendComponent;
 import com.cbl.gankarms.di.module.RecommendModule;
 import com.cbl.gankarms.mvp.model.bean.RecommendBean;
 import com.cbl.gankarms.mvp.ui.adapter.ContListAdapter;
+import com.cbl.gankarms.mvp.ui.adapter.TagListAdapter;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
-import com.jess.arms.utils.LogUtils;
-import com.jess.arms.utils.UiUtils;
-
-import java.util.List;
+import com.jess.arms.utils.ArmsUtils;
 
 import butterknife.BindView;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
@@ -58,9 +57,10 @@ public class RecommendFragment extends BaseFragment<RecommendPresenter> implemen
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        tv.setOnClickListener(v -> mPresenter.getRecommendList("1", "10"));
+        tv.setOnClickListener(v -> mPresenter.getRecommendList("1", ""));
 
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -98,13 +98,13 @@ public class RecommendFragment extends BaseFragment<RecommendPresenter> implemen
     @Override
     public void showMessage(@NonNull String message) {
         checkNotNull(message);
-        UiUtils.snackbarText(message);
+        ArmsUtils.snackbarText(message);
     }
 
     @Override
     public void launchActivity(@NonNull Intent intent) {
         checkNotNull(intent);
-        UiUtils.startActivity(intent);
+        ArmsUtils.startActivity(intent);
     }
 
     @Override
@@ -114,12 +114,9 @@ public class RecommendFragment extends BaseFragment<RecommendPresenter> implemen
 
 
     @Override
-    public void getRecommendSuccess(List<RecommendBean.DataListBean> dataList) {
-
-        for (int i = 0; i < dataList.size(); i++) {
-            LogUtils.debugInfo(dataList.get(i).getNodeType()+"++");
-        }
+    public void getRecommendSuccess(RecommendBean dataList) {
     }
+
 
     @Override
     public void getContListSuccess() {
@@ -129,6 +126,14 @@ public class RecommendFragment extends BaseFragment<RecommendPresenter> implemen
     @Override
     public void setAdapter(ContListAdapter mAdapter) {
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(manager);
+        mRecyclerView.setAdapter(mAdapter);
+        initRecyclerView();
+    }
+
+    @Override
+    public void setTagAdapter(TagListAdapter mAdapter) {
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 3);
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(mAdapter);
         initRecyclerView();

@@ -5,6 +5,10 @@
     <color name="colorAccent">#FF4081</color>
     <color name="white">#FFFFFF</color>
     <color name="color_ffe009">#FFE009</color>
+    <color name="color_fdac29">#fdac29</color>
+    <color name="color_2aaed6">#2aaed6</color>
+    <color name="color_2c2c2c">#2c2c2c</color>
+    <color name="color_8a8a8a">#8a8a8a</color>
     <array name="tab_colors">
 
         <item name="tab_1">#455C65</item>

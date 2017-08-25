@@ -40,7 +40,7 @@ public class AutoAppBarLayout extends AppBarLayout {
 
     @Override
     public LayoutParams generateLayoutParams(AttributeSet attrs) {
-        return new AutoAppBarLayout.LayoutParams(getContext(), attrs);
+        return new LayoutParams(getContext(), attrs);
     }
 
 

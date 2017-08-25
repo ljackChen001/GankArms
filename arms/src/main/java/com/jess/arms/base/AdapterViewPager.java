@@ -11,19 +11,14 @@ import java.util.List;
 
 public class AdapterViewPager extends FragmentStatePagerAdapter {
     private List<Fragment> mList;
-    private CharSequence[] mTitles;
+    private List<String> mTitles;
 
-    public AdapterViewPager(FragmentManager fragmentManager, List<Fragment> list) {
-        super(fragmentManager);
-        this.mList = list;
-    }
-
-
-    public AdapterViewPager(FragmentManager fragmentManager, List<Fragment> list, CharSequence[] titles) {
+    public AdapterViewPager(FragmentManager fragmentManager, List<Fragment> list, List<String> titles) {
         super(fragmentManager);
         this.mList = list;
         this.mTitles = titles;
     }
+
 
     @Override
     public Fragment getItem(int position) {
@@ -33,7 +28,7 @@ public class AdapterViewPager extends FragmentStatePagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         if (mTitles != null) {
-            return mTitles[position];
+            return mTitles.get(position);
         }
         return super.getPageTitle(position);
     }
