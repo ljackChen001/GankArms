@@ -1,5 +1,7 @@
 package com.cbl.gankarms.mvp.model.bean;
 
+import com.cbl.gankarms.mvp.ui.adapter.helper.MutiTypeTitleEntity;
+
 import java.io.Serializable;
 
 /**
@@ -7,8 +9,8 @@ import java.io.Serializable;
  * 全民拍客活动bean
  */
 
-public class ActivityListBean implements Serializable {
-
+public class ActivityListBean implements Serializable, MutiTypeTitleEntity {
+    public static final int ITEM_TYPE_3 = 3;//活动
     /**
      * activityId : 42
      * name : 你的窗景 Your Views
@@ -73,4 +75,18 @@ public class ActivityListBean implements Serializable {
         this.endTime = endTime;
     }
 
+    @Override
+    public String getTitle() {
+        return null;
+    }
+
+    @Override
+    public int getItemType() {
+        return ITEM_TYPE_3;
+    }
+
+    @Override
+    public long getId() {
+        return 0;
+    }
 }

@@ -11,6 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"/>
 
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:padding="10dp"
+        android:textSize="@dimen/title_font_size"
+        tools:text="梨视频"/>
     <!--<include layout="@layout/item_video"/>-->
 
     <RelativeLayout
@@ -25,7 +34,6 @@
             android:layout_height="30dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
             android:src="@drawable/head"
             app:civ_border_color="#786868"
             app:civ_border_width="1dp"/>
@@ -41,7 +49,6 @@
             android:ellipsize="end"
             android:maxEms="8"
             android:maxLines="1"
-
             tools:text="梨视频"/>
 
         <android.support.v7.widget.AppCompatTextView
@@ -51,7 +58,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/tv_name"
-            android:textSize="10sp"
+            android:textSize="@dimen/tag_font_size"
             tools:text="推荐"/>
 
         <android.support.v7.widget.AppCompatTextView

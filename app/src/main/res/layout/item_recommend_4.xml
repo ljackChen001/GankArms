@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/iv_more_cont"
+        android:layout_width="250dp"
+        android:layout_height="150dp"
+        android:gravity="center"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/head"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_more_cont"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/black"
+        android:textSize="@dimen/title_font_size"
+        tools:text="梨视频梨视频梨视频梨视频梨视频梨视频梨视频梨视频梨视频梨视频梨视频"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tv_title"
+        android:layout_below="@+id/tv_title"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/tv_bg_1"
+        android:textSize="10sp"
+        tools:text="推荐"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_node_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_title"
+        android:layout_toRightOf="@+id/tv_label"
+        android:paddingTop="1dp"
+        android:textSize="@dimen/tag_font_size"
+        tools:text="梨视频 | 03'33"/>
+</RelativeLayout>

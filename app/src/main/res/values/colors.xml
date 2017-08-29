@@ -4,11 +4,16 @@
     <color name="colorPrimaryDark">#3FA862</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
     <color name="color_ffe009">#FFE009</color>
     <color name="color_fdac29">#fdac29</color>
     <color name="color_2aaed6">#2aaed6</color>
     <color name="color_2c2c2c">#2c2c2c</color>
     <color name="color_8a8a8a">#8a8a8a</color>
+    <color name="color_f5f5f5">#f5f5f5</color>
+    <color name="color_f5f5f9">#f5f5f9</color>
+    <color name="color_white">#FFFFFF</color>
+    <color name="color_line">#D8D8D8</color>
     <array name="tab_colors">
 
         <item name="tab_1">#455C65</item>

@@ -2,12 +2,12 @@ package com.cbl.gankarms.mvp.ui.fragment.home;
 
 import android.app.Application;
 
-import com.cbl.gankarms.R;
+import com.cbl.gankarms.mvp.model.bean.ActivityListBean;
 import com.cbl.gankarms.mvp.model.bean.ContListBean;
+import com.cbl.gankarms.mvp.model.bean.DataListBean;
 import com.cbl.gankarms.mvp.model.bean.RecommendBean;
 import com.cbl.gankarms.mvp.model.bean.TagListBean;
-import com.cbl.gankarms.mvp.ui.adapter.ContListAdapter;
-import com.cbl.gankarms.mvp.ui.adapter.TagListAdapter;
+import com.cbl.gankarms.mvp.ui.adapter.helper.MyAdapter;
 import com.cbl.gankarms.utils.RxUtils;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.http.imageloader.ImageLoader;
@@ -33,10 +33,15 @@ public class RecommendPresenter extends BasePresenter<RecommendContract.Model, R
     private Application mApplication;
     private ImageLoader mImageLoader;
     private AppManager mAppManager;
-    private ContListAdapter mAdapter;
-    private TagListAdapter mTagListAdapter;
+    //    private ContListAdapter mAdapter;
+    //    private TagListAdapter mTagListAdapter;
+    //    private ShootOffActivityAdapter shootOffActivityAdapter;
+    //    private MoreContListAdapter moreContListAdapter;
     private List<ContListBean> dataList = new ArrayList<>();
     private List<TagListBean> tagListBean = new ArrayList<>();
+    private List<ActivityListBean> activityListBean = new ArrayList<>();
+    private List<DataListBean> dataListBeen = new ArrayList<>();
+    private MyAdapter mAdapter;
 
     @Inject
     public RecommendPresenter(RecommendContract.Model model, RecommendContract.View rootView
@@ -51,13 +56,25 @@ public class RecommendPresenter extends BasePresenter<RecommendContract.Model, R
 
     public void getRecommendList(String isHome, String start) {
         if (mAdapter == null) {
-            mAdapter = new ContListAdapter(R.layout.item_recommend_1, dataList);
-            mRootView.setAdapter(mAdapter);//设置Adapter
+            mAdapter = new MyAdapter();
+            mRootView.setMyAdapter(mAdapter);//设置Adapter
         }
-        if (mTagListAdapter == null) {
-            mTagListAdapter = new TagListAdapter(R.layout.item_recommend_2, tagListBean);
-            mRootView.setTagAdapter(mTagListAdapter);//设置Adapter
-        }
+        //        if (mAdapter == null) {
+        //            mAdapter = new ContListAdapter(R.layout.item_recommend_1, dataList);
+        //            mRootView.setAdapter(mAdapter);//设置Adapter
+        //        }
+        //        if (mTagListAdapter == null) {
+        //            mTagListAdapter = new TagListAdapter(R.layout.item_recommend_2, tagListBean);
+        //            mRootView.setTagAdapter(mTagListAdapter);//设置Adapter
+        //        }
+        //        if (shootOffActivityAdapter == null) {
+        //            shootOffActivityAdapter = new ShootOffActivityAdapter(R.layout.item_recommend_3, activityListBean);
+        //            mRootView.setShootOffActivityAdapter(shootOffActivityAdapter);//设置Adapter
+        //        }
+        //        if (moreContListAdapter == null) {
+        //            moreContListAdapter = new MoreContListAdapter(R.layout.item_recommend_4, dataList);
+        //            mRootView.setMoreContListAdapter(moreContListAdapter);//设置Adapter
+        //        }
         List<ContListBean> list = new ArrayList<>();
         mModel.getRecommendList(isHome, "", start)
                 .subscribeOn(Schedulers.io())
@@ -72,28 +89,23 @@ public class RecommendPresenter extends BasePresenter<RecommendContract.Model, R
                 .subscribe(new ErrorHandleSubscriber<RecommendBean>(mErrorHandler) {
                     @Override
                     public void onNext(@NonNull RecommendBean dataListBeen) {
-                        //                        for (int i = 0; i < dataListBeen.getDataList().size(); i++) {
-                        //                            if (dataListBeen.getDataList().get(i).getNodeType().equals("13")) {
-                        //                                dataList.addAll(dataListBeen.getDataList().get(i).getContList());
-                        //                            }
-                        //                        }
-                        //                        for (int i = 0; i < dataList.size(); i++) {
-                        //                            LogUtils.debugInfo(dataList.get(i).getName()+"-----");
-                        //                        }
-                        //                        LogUtils.debugInfo(dataListBeen.toString() + "--");
-                        //                        mAdapter.setNewData(dataList);
-                        //                        mRootView.getRecommendSuccess(dataListBeen);
-                        //
-                        //                        mAdapter.notifyDataSetChanged();
                         for (int i = 0; i < dataListBeen.getDataList().size(); i++) {
-                            if (dataListBeen.getDataList().get(i).getNodeType().equals("14")) {
+                            String nodeType = dataListBeen.getDataList().get(i).getNodeType();
+                            if (nodeType.equals("13")) {
+                                dataList.addAll(dataListBeen.getDataList().get(i).getContList());
+                                mAdapter.notifyType1(dataList);
+                            }
+                            if (nodeType.equals("14")) {
                                 tagListBean.addAll(dataListBeen.getDataList().get(i).getTagList());
+                                mAdapter.notifyType2(tagListBean);
+                            }
+                            if (nodeType.equals("12")) {
+                                activityListBean.addAll(dataListBeen.getDataList().get(i).getActivityList());
+                                mAdapter.notifyType3(activityListBean);
                             }
                         }
-                        mTagListAdapter.setNewData(tagListBean);
-                        mTagListAdapter.notifyDataSetChanged();
-
                     }
+
                 });
     }
 

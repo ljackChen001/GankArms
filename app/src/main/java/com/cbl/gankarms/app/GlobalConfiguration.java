@@ -193,7 +193,8 @@ public class GlobalConfiguration implements ConfigModule {
                     ButterKnife.setDebug(true);
                 }
                 //leakCanary内存泄露检查
-                ((App) application).getAppComponent().extras().put(RefWatcher.class.getName(), BuildConfig.USE_CANARY ?
+                ((App) application).getAppComponent().extras().put(RefWatcher.class.getName(),
+                        BuildConfig.USE_CANARY ?
                         LeakCanary.install(application) : RefWatcher.DISABLED);
             }
 

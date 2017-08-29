@@ -1,5 +1,7 @@
 package com.cbl.gankarms.mvp.model.bean;
 
+import com.cbl.gankarms.mvp.ui.adapter.helper.MutiTypeTitleEntity;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -8,47 +10,8 @@ import java.util.List;
  * 普通视频Item bean
  */
 
-public class ContListBean implements Serializable{
-
-    /**
-     * contId : 1139713
-     * name : 小偷夜盗超市遭店主追打，下跪求饶
-     * pic : http://image.pearvideo.com/cont/20170824/cont-1139713-10541397.png
-     * nodeInfo : {"nodeId":"25","name":"一手Video","logoImg":"http://image.pearvideo.com/node/25-10027890-logo
-     * .jpg","isOrder":"0"}
-     * link : http://
-     * linkType : 0
-     * isVr : 0
-     * aspectRatio : 0
-     * cornerLabel : 3
-     * cornerLabelDesc : 独播
-     * forwordType : 1
-     * videoType : 1
-     * duration : 01'29"
-     * liveStatus :
-     * postHtml : http://app.pearvideo.com/clt/page/v3/post.jsp?postId=1114294&contId=1139713
-     * postId : 1114294
-     * commentTimes : 12
-     * summary : 贵州平塘，一小偷多次从天花板夹缝潜入超市盗窃。店主发现留在墙上的脚印后，连续蹲守2晚，小偷再次光顾，被手持棍棒的老板追打擒获，最后下跪求饶。
-     * sharePic : http://image2.pearvideo.com/cont/20170824/cont-1139713-10541399.png
-     * shareUrl : http://www.pearvideo.com/detail_1139713
-     * tags : [{"tagId":"0","name":"内容质量差"},{"tagId":"1158","name":"下跪"},{"tagId":"1269","name":"小偷"}]
-     * videos : [{"videoId":"10796977","url":"http://video.pearvideo
-     * .com/mp4/short/20170824/cont-1139713-10796956-hd.mp4","name":"","desc":"","tag":"hd","format":"mp4",
-     * "fileSize":"13382375","duration":"89"},{"videoId":"10796976","url":"http://video.pearvideo
-     * .com/mp4/short/20170824/cont-1139713-10796956-sd.mp4","name":"","desc":"","tag":"sd","format":"mp4",
-     * "fileSize":"7239962","duration":"89"},{"videoId":"10796975","url":"http://video.pearvideo
-     * .com/mp4/short/20170824/cont-1139713-10796956-fhd.mp4","name":"","desc":"","tag":"fhd","format":"mp4",
-     * "fileSize":"24455535","duration":"89"},{"videoId":"10796974","url":"http://video.pearvideo
-     * .com/mp4/short/20170824/cont-1139713-10796956-ld.mp4","name":"","desc":"","tag":"ld","format":"mp4",
-     * "fileSize":"4108431","duration":"89"}]
-     * praiseTimes : 18
-     * isFavorited : 0
-     * adExpMonitorUrl :
-     * geo : {"namePath":"中国,贵州省,黔南布依族苗族自治州,平塘县","distance":603351,"showName":"","address":"黔南布依族苗族自治州平塘县",
-     * "loc":"106.98293,25.774156|中国,贵州省,黔南布依族苗族自治州,平塘县","placeName":"通州镇","longitude":106.98293,
-     * "latitude":25.774156}
-     */
+public class ContListBean implements Serializable, MutiTypeTitleEntity {
+    public static final int ITEM_TYPE_1 = 1;//普通Item
 
     private String contId;
     private String name;
@@ -283,6 +246,21 @@ public class ContListBean implements Serializable{
 
     public void setVideos(List<VideosBean> videos) {
         this.videos = videos;
+    }
+
+    @Override
+    public String getTitle() {
+        return null;
+    }
+
+    @Override
+    public int getItemType() {
+        return ITEM_TYPE_1;
+    }
+
+    @Override
+    public long getId() {
+        return 0;
     }
 
     public static class NodeInfoBean {

@@ -1,5 +1,7 @@
 package com.cbl.gankarms.mvp.model.bean;
 
+import com.cbl.gankarms.mvp.ui.adapter.helper.MutiTypeTitleEntity;
+
 import java.io.Serializable;
 
 /**
@@ -7,7 +9,8 @@ import java.io.Serializable;
  * 热门标签Bean
  */
 
-public class TagListBean implements Serializable {
+public class TagListBean implements Serializable, MutiTypeTitleEntity {
+    public static final int ITEM_TYPE_2 = 2;//热门标签
 
     /**
      * tagId : 3257
@@ -33,4 +36,19 @@ public class TagListBean implements Serializable {
         this.name = name;
     }
 
+
+    @Override
+    public int getItemType() {
+        return ITEM_TYPE_2;
+    }
+
+    @Override
+    public long getId() {
+        return 0;
+    }
+
+    @Override
+    public String getTitle() {
+        return null;
+    }
 }

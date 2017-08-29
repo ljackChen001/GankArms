@@ -2,7 +2,10 @@ package com.cbl.gankarms.mvp.ui.fragment.home;
 
 import com.cbl.gankarms.mvp.model.bean.RecommendBean;
 import com.cbl.gankarms.mvp.ui.adapter.ContListAdapter;
+import com.cbl.gankarms.mvp.ui.adapter.MoreContListAdapter;
+import com.cbl.gankarms.mvp.ui.adapter.ShootOffActivityAdapter;
 import com.cbl.gankarms.mvp.ui.adapter.TagListAdapter;
+import com.cbl.gankarms.mvp.ui.adapter.helper.MyAdapter;
 import com.jess.arms.mvp.IModel;
 import com.jess.arms.mvp.IView;
 
@@ -18,6 +21,9 @@ public interface RecommendContract {
 
         void setAdapter(ContListAdapter mAdapter);
         void setTagAdapter(TagListAdapter mAdapter);
+        void setShootOffActivityAdapter(ShootOffActivityAdapter mAdapter);
+        void setMoreContListAdapter(MoreContListAdapter mAdapter);
+        void setMyAdapter(MyAdapter mAdapter);
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存

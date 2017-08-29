@@ -37,4 +37,6 @@ public abstract class BaseAdapter<T extends MutiTypeTitleEntity,
     public H getHelper() {
         return mHelper;
     }
+
+
 }

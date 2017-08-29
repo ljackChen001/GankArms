@@ -3,7 +3,6 @@ package com.cbl.gankarms.mvp.ui.fragment.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +15,15 @@ import com.cbl.gankarms.di.component.DaggerRecommendComponent;
 import com.cbl.gankarms.di.module.RecommendModule;
 import com.cbl.gankarms.mvp.model.bean.RecommendBean;
 import com.cbl.gankarms.mvp.ui.adapter.ContListAdapter;
+import com.cbl.gankarms.mvp.ui.adapter.MoreContListAdapter;
+import com.cbl.gankarms.mvp.ui.adapter.ShootOffActivityAdapter;
 import com.cbl.gankarms.mvp.ui.adapter.TagListAdapter;
+import com.cbl.gankarms.mvp.ui.adapter.helper.MyAdapter;
+import com.google.android.flexbox.AlignItems;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -57,7 +64,7 @@ public class RecommendFragment extends BaseFragment<RecommendPresenter> implemen
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        tv.setOnClickListener(v -> mPresenter.getRecommendList("1", ""));
+        tv.setOnClickListener(v -> mPresenter.getRecommendList("1", "0"));
 
     }
 
@@ -133,13 +140,55 @@ public class RecommendFragment extends BaseFragment<RecommendPresenter> implemen
 
     @Override
     public void setTagAdapter(TagListAdapter mAdapter) {
-        GridLayoutManager manager = new GridLayoutManager(getActivity(), 3);
-        mRecyclerView.setLayoutManager(manager);
+        //        GridLayoutManager manager = new GridLayoutManager(getActivity(), 3);
+        //        mRecyclerView.setLayoutManager(manager);
+        //        mRecyclerView.setAdapter(mAdapter);
+        FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager();
+        flexboxLayoutManager.setFlexWrap(FlexWrap.WRAP);
+        flexboxLayoutManager.setFlexDirection(FlexDirection.ROW);
+        flexboxLayoutManager.setAlignItems(AlignItems.STRETCH);
+        flexboxLayoutManager.setJustifyContent(JustifyContent.FLEX_START);
+        mRecyclerView.setLayoutManager(flexboxLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-        initRecyclerView();
+        mAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void setShootOffActivityAdapter(ShootOffActivityAdapter mAdapter) {
+        //设置布局管理器
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setMoreContListAdapter(MoreContListAdapter mAdapter) {
+        //设置布局管理器
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setMyAdapter(MyAdapter mAdapter) {
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(manager);
+        mRecyclerView.setAdapter(mAdapter);
+//        initRecyclerView();
+//        mRecyclerView.setAdapter(mAdapter);
+//        mAdapter.notifyDataSetChanged();
+    }
+
+
     private void initRecyclerView() {
+        //设置布局管理器
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
 
     }
 }

@@ -6,4 +6,7 @@
     <dimen name="post_media_height">200dp</dimen>
 
     <dimen name="seek_bar_image">150dp</dimen>
+    <!--标签字体 -->
+    <dimen name="tag_font_size">10sp</dimen>
+    <dimen name="title_font_size">17sp</dimen>
 </resources>

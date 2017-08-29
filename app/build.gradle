@@ -75,4 +75,6 @@ dependencies {
     compile 'com.android.support:support-v4:25.3.1'
     debugCompile 'com.readystatesoftware.chuck:library:1.1.0'
     releaseCompile 'com.readystatesoftware.chuck:library-no-op:1.1.0'
+    compile 'com.google.android:flexbox:0.3.0-alpha3'
+
 }

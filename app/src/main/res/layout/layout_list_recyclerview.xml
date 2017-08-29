@@ -19,8 +19,4 @@
         android:cacheColorHint="@null"
         android:scrollbars="none">
     </android.support.v7.widget.RecyclerView>
-    <FrameLayout
-        android:id="@+id/video_full_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 </LinearLayout>
