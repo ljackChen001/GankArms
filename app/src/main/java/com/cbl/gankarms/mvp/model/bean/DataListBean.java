@@ -1,5 +1,7 @@
 package com.cbl.gankarms.mvp.model.bean;
 
+import com.cbl.gankarms.mvp.ui.adapter.helper.MutiTypeTitleEntity;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -7,7 +9,7 @@ import java.util.List;
  * Created by chenbaolin on 2017/8/24.
  */
 
-public class DataListBean implements Serializable {
+public class DataListBean implements Serializable ,MutiTypeTitleEntity{
     private String nodeType;
     private String nodeName;
     private String moreId;
@@ -72,6 +74,20 @@ public class DataListBean implements Serializable {
         this.activityList = activityList;
     }
 
+    @Override
+    public String getTitle() {
+        return nodeName;
+    }
+
+    @Override
+    public int getItemType() {
+        return ActivityListBean.ITEM_TYPE_3;
+    }
+
+    @Override
+    public long getId() {
+        return Long.parseLong(nodeType);
+    }
 
 
     //

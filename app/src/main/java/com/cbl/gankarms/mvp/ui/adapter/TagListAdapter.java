@@ -18,19 +18,19 @@ import java.util.List;
  */
 
 public class TagListAdapter extends BaseQuickAdapter<TagListBean, BaseViewHolder> {
+
     public TagListAdapter(@LayoutRes int layoutResId, @Nullable List<TagListBean> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder holder, TagListBean item) {
-        TextView tag=holder.getView(R.id.tv_hot_tag);
+    protected void convert(BaseViewHolder helper, TagListBean item) {
+        TextView tag = helper.getView(R.id.tv_hot_tag);
         tag.setText(item.getName());
         ViewGroup.LayoutParams lp = tag.getLayoutParams();
-        if(lp instanceof FlexboxLayoutManager.LayoutParams){
+        if (lp instanceof FlexboxLayoutManager.LayoutParams) {
             FlexboxLayoutManager.LayoutParams layoutParams = (FlexboxLayoutManager.LayoutParams) lp;
             layoutParams.setFlexGrow(1.0f);
         }
     }
-
 }

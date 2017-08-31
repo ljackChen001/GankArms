@@ -19,6 +19,7 @@ import com.cbl.gankarms.mvp.model.bean.CategoryListBean;
 import com.cbl.gankarms.mvp.presenter.HomePresenter;
 import com.cbl.gankarms.mvp.ui.adapter.ViewPagerAdapter;
 import com.cbl.gankarms.mvp.ui.fragment.home.RecommendFragment;
+import com.cbl.gankarms.mvp.ui.fragment.home.SimilarFragment;
 import com.jess.arms.base.AdapterViewPager;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
@@ -125,14 +126,31 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     public void getCategroySuccess(List<CategoryListBean.CategoryList> categoryList) {
         mTitle = new ArrayList<>();
         fragmentList = new ArrayList<>();
+        mTitle.add(0, "推荐");
+        mTitle.add(1, "热门");
         if (categoryList != null) {
             for (int i = 0; i < categoryList.size(); i++) {
                 //                mTabLayout.addTab(mTabLayout.newTab().setText(categoryList.get(i).getName()));
                 mTitle.add(categoryList.get(i).getName());
             }
+
             fragmentList.add(new RecommendFragment());
+            fragmentList.add(new SimilarFragment());
+            fragmentList.add(new SimilarFragment());
+            fragmentList.add(new SimilarFragment());
+            fragmentList.add(new SimilarFragment());
+            fragmentList.add(new SimilarFragment());
+            fragmentList.add(new SimilarFragment());
+            fragmentList.add(new SimilarFragment());
+            fragmentList.add(new SimilarFragment());
+            fragmentList.add(new SimilarFragment());
+            fragmentList.add(new SimilarFragment());
+            fragmentList.add(new SimilarFragment());
+            fragmentList.add(new SimilarFragment());
+            fragmentList.add(new SimilarFragment());
             mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-            AdapterViewPager viewPagerAdapter = new AdapterViewPager(getChildFragmentManager(), fragmentList, mTitle);
+            AdapterViewPager viewPagerAdapter = new AdapterViewPager(getChildFragmentManager(),
+                    fragmentList, mTitle);
             mViewPager.setCurrentItem(0);
             mViewPager.setAdapter(viewPagerAdapter);
             mTabLayout.setupWithViewPager(mViewPager, true);

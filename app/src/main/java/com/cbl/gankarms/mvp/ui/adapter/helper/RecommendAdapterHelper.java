@@ -14,16 +14,19 @@ import java.util.List;
  * Created by chenbaolin on 2017/8/23.
  */
 
-public class MyAdapterHelper extends AsynAdapterHelper<MutiTypeTitleEntity, BaseAdapter> {
-    public MyAdapterHelper() {
+public class RecommendAdapterHelper extends AsynAdapterHelper<MutiTypeTitleEntity, BaseAdapter> {
+    public RecommendAdapterHelper() {
         super(null);
     }
+
     @Override
     protected void registerMoudle() {
         registerMoudle(ContListBean.ITEM_TYPE_1)
                 .level(0)
                 .headerResId(R.layout.header_common)
                 .layoutResId(R.layout.item_recommend_1)
+                .loading()
+                .loadingLayoutResId(R.layout.loading_recommend_1)
                 .register();
 
         registerMoudle(TagListBean.ITEM_TYPE_2)
@@ -38,6 +41,7 @@ public class MyAdapterHelper extends AsynAdapterHelper<MutiTypeTitleEntity, Base
                 .layoutResId(R.layout.item_recommend_3)
                 .register();
     }
+
     @Override
     protected int getPreDataCount() {
         return mAdapter.getHeaderLayoutCount();

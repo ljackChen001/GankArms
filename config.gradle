@@ -47,7 +47,7 @@ ext {
             "numberprogressbar"       : 'com.daimajia.numberprogressbar:library:1.2@aar',
             "nineoldandroids"         : 'com.nineoldandroids:library:2.4.0',
             "paginate"                : 'com.github.markomilos:paginate:0.5.1',
-            "vlayout"                 : 'com.alibaba.android:vlayout:1.0.6@aar',
+            "vlayout"                 : 'com.alibaba.android:vlayout:1.1.0@aar',
             //rx2
             "rxandroid2"              : 'io.reactivex.rxjava2:rxandroid:2.0.1',
             "rxjava2"                 : 'io.reactivex.rxjava2:rxjava:2.1.0',

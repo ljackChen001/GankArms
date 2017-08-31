@@ -77,7 +77,7 @@ public class ActivityListBean implements Serializable, MutiTypeTitleEntity {
 
     @Override
     public String getTitle() {
-        return null;
+        return name;
     }
 
     @Override
@@ -87,6 +87,6 @@ public class ActivityListBean implements Serializable, MutiTypeTitleEntity {
 
     @Override
     public long getId() {
-        return 0;
+        return Long.parseLong(activityId);
     }
 }

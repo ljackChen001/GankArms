@@ -17,7 +17,9 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="2"
-        android:padding="10dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
         android:textSize="@dimen/title_font_size"
         tools:text="梨视频"/>
     <!--<include layout="@layout/item_video"/>-->

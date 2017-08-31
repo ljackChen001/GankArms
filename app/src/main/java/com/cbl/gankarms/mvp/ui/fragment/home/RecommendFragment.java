@@ -3,6 +3,7 @@ package com.cbl.gankarms.mvp.ui.fragment.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,12 +19,7 @@ import com.cbl.gankarms.mvp.ui.adapter.ContListAdapter;
 import com.cbl.gankarms.mvp.ui.adapter.MoreContListAdapter;
 import com.cbl.gankarms.mvp.ui.adapter.ShootOffActivityAdapter;
 import com.cbl.gankarms.mvp.ui.adapter.TagListAdapter;
-import com.cbl.gankarms.mvp.ui.adapter.helper.MyAdapter;
-import com.google.android.flexbox.AlignItems;
-import com.google.android.flexbox.FlexDirection;
-import com.google.android.flexbox.FlexWrap;
-import com.google.android.flexbox.FlexboxLayoutManager;
-import com.google.android.flexbox.JustifyContent;
+import com.cbl.gankarms.mvp.ui.adapter.helper.RecommendAdapter;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -34,6 +30,9 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
 
+/**
+ * 推荐
+ */
 public class RecommendFragment extends BaseFragment<RecommendPresenter> implements RecommendContract.View {
 
 
@@ -132,23 +131,28 @@ public class RecommendFragment extends BaseFragment<RecommendPresenter> implemen
 
     @Override
     public void setAdapter(ContListAdapter mAdapter) {
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(manager);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-        initRecyclerView();
     }
 
     @Override
     public void setTagAdapter(TagListAdapter mAdapter) {
-        //        GridLayoutManager manager = new GridLayoutManager(getActivity(), 3);
-        //        mRecyclerView.setLayoutManager(manager);
-        //        mRecyclerView.setAdapter(mAdapter);
-        FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager();
-        flexboxLayoutManager.setFlexWrap(FlexWrap.WRAP);
-        flexboxLayoutManager.setFlexDirection(FlexDirection.ROW);
-        flexboxLayoutManager.setAlignItems(AlignItems.STRETCH);
-        flexboxLayoutManager.setJustifyContent(JustifyContent.FLEX_START);
-        mRecyclerView.setLayoutManager(flexboxLayoutManager);
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 6, GridLayoutManager.VERTICAL, false);
+
+        //        FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager();
+        //        flexboxLayoutManager.setFlexWrap(FlexWrap.WRAP);
+        //        flexboxLayoutManager.setFlexDirection(FlexDirection.ROW);
+        //        flexboxLayoutManager.setAlignItems(AlignItems.STRETCH);
+        //        flexboxLayoutManager.setJustifyContent(JustifyContent.FLEX_START);
+        //        mRecyclerView.setLayoutManager(flexboxLayoutManager);
+        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return manager.getSpanCount();
+            }
+        });
+        mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
     }
@@ -174,21 +178,34 @@ public class RecommendFragment extends BaseFragment<RecommendPresenter> implemen
     }
 
     @Override
-    public void setMyAdapter(MyAdapter mAdapter) {
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.setAdapter(mAdapter);
-//        initRecyclerView();
-//        mRecyclerView.setAdapter(mAdapter);
-//        mAdapter.notifyDataSetChanged();
-    }
-
-
-    private void initRecyclerView() {
+    public void setMyAdapter(RecommendAdapter mAdapter) {
+//        FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager();
+//        flexboxLayoutManager.setFlexWrap(FlexWrap.WRAP_REVERSE);
+//        flexboxLayoutManager.setFlexDirection(FlexDirection.ROW);
+//        flexboxLayoutManager.setAlignItems(AlignItems.STRETCH);
+//        flexboxLayoutManager.setJustifyContent(JustifyContent.FLEX_START);
+//        mRecyclerView.setLayoutManager(flexboxLayoutManager);
         //设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-
+        mRecyclerView.setAdapter(mAdapter);
+        //        initRecyclerView();
+        //        mRecyclerView.setAdapter(mAdapter);
+        //        mAdapter.notifyDataSetChanged();
+        //        mAdapter.setMultiTypeDelegate(new MultiTypeDelegate<MutiTypeTitleEntity>() {
+        //            @Override
+        //            protected int getItemType(MutiTypeTitleEntity mutiTypeTitleEntity) {
+        //                if (mutiTypeTitleEntity.getItemType() == 13) {
+        //                    LogUtils.debugInfo("----------------------");
+        //                    LinearLayoutManager manager = new LinearLayoutManager(getActivity(),
+        //                            LinearLayoutManager.HORIZONTAL, false);
+        //                    mRecyclerView.setLayoutManager(manager);
+        //                    mRecyclerView.setAdapter(mAdapter);
+        //                }
+        //                return 13;
+        //            }
+        //        });
     }
+
+
 }

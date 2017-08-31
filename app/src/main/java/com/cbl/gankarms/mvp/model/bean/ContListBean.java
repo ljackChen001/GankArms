@@ -12,7 +12,8 @@ import java.util.List;
 
 public class ContListBean implements Serializable, MutiTypeTitleEntity {
     public static final int ITEM_TYPE_1 = 1;//普通Item
-
+    private String liveStartTime;
+    private String isAppoint;
     private String contId;
     private String name;
     private String pic;
@@ -39,6 +40,24 @@ public class ContListBean implements Serializable, MutiTypeTitleEntity {
     private GeoBean geo;
     private List<TagsBean> tags;
     private List<VideosBean> videos;
+
+    public String getLiveStartTime() {
+        return liveStartTime;
+    }
+
+    public ContListBean setLiveStartTime(String liveStartTime) {
+        this.liveStartTime = liveStartTime;
+        return this;
+    }
+
+    public String getIsAppoint() {
+        return isAppoint;
+    }
+
+    public ContListBean setIsAppoint(String isAppoint) {
+        this.isAppoint = isAppoint;
+        return this;
+    }
 
     public String getContId() {
         return contId;
@@ -250,7 +269,7 @@ public class ContListBean implements Serializable, MutiTypeTitleEntity {
 
     @Override
     public String getTitle() {
-        return null;
+        return name;
     }
 
     @Override
@@ -260,53 +279,7 @@ public class ContListBean implements Serializable, MutiTypeTitleEntity {
 
     @Override
     public long getId() {
-        return 0;
-    }
-
-    public static class NodeInfoBean {
-        /**
-         * nodeId : 25
-         * name : 一手Video
-         * logoImg : http://image.pearvideo.com/node/25-10027890-logo.jpg
-         * isOrder : 0
-         */
-
-        private String nodeId;
-        private String name;
-        private String logoImg;
-        private String isOrder;
-
-        public String getNodeId() {
-            return nodeId;
-        }
-
-        public void setNodeId(String nodeId) {
-            this.nodeId = nodeId;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getLogoImg() {
-            return logoImg;
-        }
-
-        public void setLogoImg(String logoImg) {
-            this.logoImg = logoImg;
-        }
-
-        public String getIsOrder() {
-            return isOrder;
-        }
-
-        public void setIsOrder(String isOrder) {
-            this.isOrder = isOrder;
-        }
+        return Long.parseLong(contId);
     }
 
     public static class GeoBean {

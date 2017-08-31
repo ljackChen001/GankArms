@@ -63,6 +63,7 @@ dependencies {
     compile rootProject.ext.dependencies["status-bar"]
     compile rootProject.ext.dependencies["videoplayer"]
     compile rootProject.ext.dependencies["GSYVideoPlayer"]
+    compile rootProject.ext.dependencies["vlayout"]
 
     //test
     testCompile rootProject.ext.dependencies["junit"]
@@ -76,5 +77,5 @@ dependencies {
     debugCompile 'com.readystatesoftware.chuck:library:1.1.0'
     releaseCompile 'com.readystatesoftware.chuck:library-no-op:1.1.0'
     compile 'com.google.android:flexbox:0.3.0-alpha3'
-
+    compile 'com.github.todou:appbarspring:1.0.3'
 }

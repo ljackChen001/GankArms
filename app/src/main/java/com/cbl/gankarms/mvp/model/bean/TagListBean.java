@@ -44,11 +44,11 @@ public class TagListBean implements Serializable, MutiTypeTitleEntity {
 
     @Override
     public long getId() {
-        return 0;
+        return Long.parseLong(tagId);
     }
 
     @Override
     public String getTitle() {
-        return null;
+        return name;
     }
 }

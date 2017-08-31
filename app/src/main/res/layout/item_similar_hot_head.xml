@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:background="@color/color_fdac29"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_hot_title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
+        android:gravity="center"
+        android:textSize="@dimen/head_font_size"
+        tools:text="最热"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_hot_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="3dp"
+        android:drawablePadding="5dp"
+        android:drawableRight="@drawable/yellow_right"
+        android:gravity="center"
+        android:textColor="@color/color_fdac29"
+        android:textSize="@dimen/head_font_size"
+        tools:text="排行榜"/>
+
+</RelativeLayout>

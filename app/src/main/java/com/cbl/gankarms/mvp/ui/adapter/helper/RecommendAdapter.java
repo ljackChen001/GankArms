@@ -7,9 +7,13 @@ import android.widget.TextView;
 import com.cbl.gankarms.R;
 import com.cbl.gankarms.mvp.model.bean.ActivityListBean;
 import com.cbl.gankarms.mvp.model.bean.ContListBean;
+import com.cbl.gankarms.mvp.model.bean.LoadingEntity;
 import com.cbl.gankarms.mvp.model.bean.TagListBean;
 import com.cbl.gankarms.widget.CircleImageView;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.crazysunj.multitypeadapter.adapter.LoadingEntityAdapter;
+import com.crazysunj.multitypeadapter.helper.LoadingConfig;
+import com.crazysunj.multitypeadapter.helper.RecyclerViewAdapterHelper;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.http.imageloader.ImageLoader;
 import com.jess.arms.http.imageloader.glide.ImageConfigImpl;
@@ -23,15 +27,37 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
  * Created by chenbaolin on 2017/8/28.
  */
 
-public class MyAdapter extends BaseAdapter<MutiTypeTitleEntity, BaseViewHolder, MyAdapterHelper> {
+public class RecommendAdapter extends BaseAdapter<MutiTypeTitleEntity, BaseViewHolder, RecommendAdapterHelper> {
     private AppComponent mAppComponent;
     private ImageLoader mImageLoader;//用于加载图片的管理类,默认使用glide,使用策略模式,可替换框架
     private ImageView iv, mIvActivity;
     private JCVideoPlayerStandard jcVideoPlayerStandard;
     private CircleImageView mIvHead;
 
-    public MyAdapter() {
-        super(new MyAdapterHelper());}
+    public RecommendAdapter() {
+        super(new RecommendAdapterHelper());
+        mHelper.setLoadingAdapter(new LoadingEntityAdapter<MutiTypeTitleEntity>() {
+            @Override
+            public MutiTypeTitleEntity createLoadingEntity(int type) {
+                return new LoadingEntity(type - RecyclerViewAdapterHelper.LOADING_DATA_TYPE_DIFFER, mHelper.getRandomId());
+            }
+
+            @Override
+            public MutiTypeTitleEntity createLoadingHeaderEntity(int type) {
+                return new LoadingEntity(type - RecyclerViewAdapterHelper.LOADING_HEADER_TYPE_DIFFER, mHelper.getRandomId());
+            }
+
+            @Override
+            public void bindLoadingEntity(MutiTypeTitleEntity loadingEntity, int position) {
+
+            }
+        });
+
+        mHelper.initGlobalLoadingConfig(new LoadingConfig.Builder()
+                .setLoading(ContListBean.ITEM_TYPE_1, 10)
+                .build());
+    }
+
     @Override
     protected void convert(BaseViewHolder helper, MutiTypeTitleEntity item) {
         mAppComponent = ArmsUtils.obtainAppComponentFromContext(mContext);
@@ -39,9 +65,11 @@ public class MyAdapter extends BaseAdapter<MutiTypeTitleEntity, BaseViewHolder, 
         int itemType = item.getItemType();
         switch (itemType) {
             case ContListBean.ITEM_TYPE_1:
+
                 renderEntity1(helper, (ContListBean) item);
                 break;
             case TagListBean.ITEM_TYPE_2:
+
                 renderEntity2(helper, (TagListBean) item);
                 break;
             case ActivityListBean.ITEM_TYPE_3:
@@ -50,6 +78,7 @@ public class MyAdapter extends BaseAdapter<MutiTypeTitleEntity, BaseViewHolder, 
         }
 
     }
+
     private void renderEntity1(BaseViewHolder helper, ContListBean data) {
         helper.setText(R.id.tv_title, data.getName());
         AppCompatTextView mTvLable = helper.getView(R.id.tv_label);
@@ -90,11 +119,6 @@ public class MyAdapter extends BaseAdapter<MutiTypeTitleEntity, BaseViewHolder, 
     private void renderEntity2(BaseViewHolder helper, TagListBean data) {
         TextView tag = helper.getView(R.id.tv_hot_tag);
         tag.setText(data.getName());
-        //        ViewGroup.LayoutParams lp = tag.getLayoutParams();
-        //        if (lp instanceof FlexboxLayoutManager.LayoutParams) {
-        //            FlexboxLayoutManager.LayoutParams layoutParams = (FlexboxLayoutManager.LayoutParams) lp;
-        //            layoutParams.setFlexGrow(1.0f);
-        //        }
     }
 
     private void renderEntity3(BaseViewHolder helper, ActivityListBean data) {
@@ -108,6 +132,7 @@ public class MyAdapter extends BaseAdapter<MutiTypeTitleEntity, BaseViewHolder, 
                         .build());
 
     }
+
     public void notifyLoading() {
         mHelper.notifyLoadingChanged();
     }
@@ -133,4 +158,5 @@ public class MyAdapter extends BaseAdapter<MutiTypeTitleEntity, BaseViewHolder, 
         //                .imageViews(iv,jcVideoPlayerStandard.thumbImageView,mIvHead,mIvActivity)
         //                .build());
     }
+
 }

@@ -7,7 +7,7 @@ import com.cbl.gankarms.mvp.model.bean.ContListBean;
 import com.cbl.gankarms.mvp.model.bean.DataListBean;
 import com.cbl.gankarms.mvp.model.bean.RecommendBean;
 import com.cbl.gankarms.mvp.model.bean.TagListBean;
-import com.cbl.gankarms.mvp.ui.adapter.helper.MyAdapter;
+import com.cbl.gankarms.mvp.ui.adapter.helper.RecommendAdapter;
 import com.cbl.gankarms.utils.RxUtils;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.http.imageloader.ImageLoader;
@@ -16,6 +16,7 @@ import com.jess.arms.mvp.BasePresenter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -37,11 +38,11 @@ public class RecommendPresenter extends BasePresenter<RecommendContract.Model, R
     //    private TagListAdapter mTagListAdapter;
     //    private ShootOffActivityAdapter shootOffActivityAdapter;
     //    private MoreContListAdapter moreContListAdapter;
-    private List<ContListBean> dataList = new ArrayList<>();
-    private List<TagListBean> tagListBean = new ArrayList<>();
-    private List<ActivityListBean> activityListBean = new ArrayList<>();
-    private List<DataListBean> dataListBeen = new ArrayList<>();
-    private MyAdapter mAdapter;
+    List<ContListBean> dataList = new ArrayList<>();
+    List<TagListBean> tagListBean;
+    List<ActivityListBean> activityListBean;
+    List<DataListBean> dataListBeen;
+    private RecommendAdapter mAdapter;
 
     @Inject
     public RecommendPresenter(RecommendContract.Model model, RecommendContract.View rootView
@@ -56,9 +57,10 @@ public class RecommendPresenter extends BasePresenter<RecommendContract.Model, R
 
     public void getRecommendList(String isHome, String start) {
         if (mAdapter == null) {
-            mAdapter = new MyAdapter();
+            mAdapter = new RecommendAdapter();
             mRootView.setMyAdapter(mAdapter);//设置Adapter
         }
+        mAdapter.notifyLoading();
         //        if (mAdapter == null) {
         //            mAdapter = new ContListAdapter(R.layout.item_recommend_1, dataList);
         //            mRootView.setAdapter(mAdapter);//设置Adapter
@@ -75,7 +77,6 @@ public class RecommendPresenter extends BasePresenter<RecommendContract.Model, R
         //            moreContListAdapter = new MoreContListAdapter(R.layout.item_recommend_4, dataList);
         //            mRootView.setMoreContListAdapter(moreContListAdapter);//设置Adapter
         //        }
-        List<ContListBean> list = new ArrayList<>();
         mModel.getRecommendList(isHome, "", start)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))
@@ -86,6 +87,7 @@ public class RecommendPresenter extends BasePresenter<RecommendContract.Model, R
                 .observeOn(AndroidSchedulers.mainThread())
                 .doFinally(() -> mRootView.hideLoading())
                 .compose(RxUtils.bindToLifecycle(mRootView))
+                .delay(500, TimeUnit.MILLISECONDS,false)
                 .subscribe(new ErrorHandleSubscriber<RecommendBean>(mErrorHandler) {
                     @Override
                     public void onNext(@NonNull RecommendBean dataListBeen) {
@@ -96,12 +98,17 @@ public class RecommendPresenter extends BasePresenter<RecommendContract.Model, R
                                 mAdapter.notifyType1(dataList);
                             }
                             if (nodeType.equals("14")) {
-                                tagListBean.addAll(dataListBeen.getDataList().get(i).getTagList());
-                                mAdapter.notifyType2(tagListBean);
+                                //TODO 这里后面来处理
+                                //                                tagListBean = new ArrayList<>();
+                                //                                tagListBean.addAll(dataListBeen.getDataList().get(i)
+                                //                                        .getTagList());
+                                //                                mAdapter.notifyType2(tagListBean);
                             }
                             if (nodeType.equals("12")) {
-                                activityListBean.addAll(dataListBeen.getDataList().get(i).getActivityList());
-                                mAdapter.notifyType3(activityListBean);
+                                //                                activityListBean = new ArrayList<>();
+                                //                                activityListBean.addAll(dataListBeen.getDataList().get(i)
+                                //                                        .getActivityList());
+                                //                                mAdapter.notifyType3(activityListBean);
                             }
                         }
                     }

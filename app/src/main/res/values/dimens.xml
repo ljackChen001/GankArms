@@ -9,4 +9,5 @@
     <!--标签字体 -->
     <dimen name="tag_font_size">10sp</dimen>
     <dimen name="title_font_size">17sp</dimen>
+    <dimen name="head_font_size">13sp</dimen>
 </resources>

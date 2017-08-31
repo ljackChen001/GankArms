@@ -119,7 +119,9 @@
     <orderEntry type="library" exported="" name="arouter-annotation-1.0.3" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="exposed-instrumentation-api-publish-0.5" level="project" />
     <orderEntry type="library" exported="" name="transitionseverywhere-1.7.0" level="project" />
+    <orderEntry type="library" exported="" name="vlayout-1.1.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="javax.annotation-api-1.2" level="project" />
+    <orderEntry type="library" exported="" name="appbarspring-1.0.3" level="project" />
     <orderEntry type="library" exported="" name="autolayout-1.4.5" level="project" />
     <orderEntry type="library" exported="" name="slf4j-android-1.7.21" level="project" />
     <orderEntry type="library" exported="" name="leakcanary-android-1.5.1" level="project" />

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_margin="10dp">
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:background="@color/color_fdac29"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_newest_title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
+        android:gravity="center"
+        android:textSize="@dimen/head_font_size"
+        tools:text="最新"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_newest_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_toLeftOf="@+id/tv_newest_tag1"
+        android:background="@drawable/tv_bg_tag"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxEms="10"
+        tools:text="大吉大利，一起吃鸡"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_newest_tag1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_toLeftOf="@+id/iv_down_up"
+        android:background="@drawable/tv_bg_tag"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxEms="10"
+        tools:text="过完七夕继续嗨"/>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/iv_down_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:background="@drawable/iv_down_up_selector"/>
+
+</RelativeLayout>
