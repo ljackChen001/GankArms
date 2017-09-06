@@ -3,6 +3,7 @@ package com.cbl.gankarms.mvp.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -42,6 +43,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     TabLayout mTabLayout;
     @BindView(R.id.toolbar_iv_target)
     ImageView toolbarIvTarget;
+    @BindView(R.id.appbar)
+    AppBarLayout mAppBarLayout;
 
     ViewPagerAdapter viewPagerAdapter;
     private ArrayList<Fragment> fragmentList;
@@ -74,7 +77,17 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         mPresenter.getCategorys();
         //        mTitle = new ArrayList<>();
         //        fragmentList = new ArrayList<>();
+        initListener();
+    }
 
+    private void initListener() {
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                float percent = (float) Math.abs(verticalOffset) / (float) appBarLayout.getTotalScrollRange();
+
+            }
+        });
     }
 
     /**

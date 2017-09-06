@@ -8,11 +8,11 @@ import com.cbl.gankarms.mvp.model.bean.DataListBean;
 import com.cbl.gankarms.mvp.model.bean.RecommendBean;
 import com.cbl.gankarms.mvp.model.bean.TagListBean;
 import com.cbl.gankarms.mvp.ui.adapter.helper.RecommendAdapter;
-import com.cbl.gankarms.utils.RxUtils;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.http.imageloader.ImageLoader;
 import com.jess.arms.integration.AppManager;
 import com.jess.arms.mvp.BasePresenter;
+import com.jess.arms.utils.RxLifecycleUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,8 +86,8 @@ public class RecommendPresenter extends BasePresenter<RecommendContract.Model, R
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doFinally(() -> mRootView.hideLoading())
-                .compose(RxUtils.bindToLifecycle(mRootView))
-                .delay(500, TimeUnit.MILLISECONDS,false)
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .delay(200, TimeUnit.MILLISECONDS,false)
                 .subscribe(new ErrorHandleSubscriber<RecommendBean>(mErrorHandler) {
                     @Override
                     public void onNext(@NonNull RecommendBean dataListBeen) {

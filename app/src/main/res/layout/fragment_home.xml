@@ -12,7 +12,8 @@
         android:layout_height="200dp"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_behavior="@string/appbar_spring_behavior">
+        app:layout_behavior="@string/appbar_spring_behavior"
+        >
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
@@ -89,7 +90,6 @@
         android:layout_height="match_parent"
         android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"

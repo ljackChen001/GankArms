@@ -23,4 +23,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="appbar_scroll_behavior">com.cbl.gankarms.widget.behavior.AppBarLayoutOverScrollViewBehavior</string>
 </resources>
