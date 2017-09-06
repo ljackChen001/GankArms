@@ -13,12 +13,18 @@ public class AdapterViewPager extends FragmentStatePagerAdapter {
     private List<Fragment> mList;
     private List<String> mTitles;
 
+    public AdapterViewPager(FragmentManager fragmentManager, List<Fragment> list) {
+        super(fragmentManager);
+        this.mList = list;
+
+    }
+
+
     public AdapterViewPager(FragmentManager fragmentManager, List<Fragment> list, List<String> titles) {
         super(fragmentManager);
         this.mList = list;
         this.mTitles = titles;
     }
-
 
     @Override
     public Fragment getItem(int position) {

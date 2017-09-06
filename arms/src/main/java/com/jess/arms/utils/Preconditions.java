@@ -3,12 +3,16 @@ package com.jess.arms.utils;
 import android.support.annotation.Nullable;
 
 /**
- * Created by jess on 26/09/2016 13:59
+ * ================================================
+ * Created by JessYan on 26/09/2016 13:59
  * Contact with jess.yan.effort@gmail.com
+ * Follow me on https://github.com/JessYanCoding
+ * ================================================
  */
-
 public final class Preconditions {
+
     private Preconditions() {
+        throw new IllegalStateException("you can't instantiate me!");
     }
 
     public static void checkArgument(boolean expression) {

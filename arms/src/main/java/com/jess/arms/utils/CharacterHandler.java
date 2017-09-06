@@ -22,11 +22,16 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 /**
- * Created by zhiyicx on 2016/3/16.
+ * ================================================
+ * Created by JessYan on 2016/3/16
+ * Contact with jess.yan.effort@gmail.com
+ * Follow me on https://github.com/JessYanCoding
+ * ================================================
  */
 public class CharacterHandler {
 
     private CharacterHandler() {
+        throw new IllegalStateException("you can't instantiate me!");
     }
 
     public static final InputFilter emojiFilter = new InputFilter() {//emoji过滤器
