@@ -35,7 +35,7 @@ public class RecommendModel extends BaseModel implements RecommendContract.Model
 
 
     @Override
-    public Observable<RecommendBean> getRecommendList(String isHome, String channelCode, String start) {
+    public Observable<RecommendBean> getRecommendList(String isHome, String channelCode, int start) {
         return mRepositoryManager.obtainRetrofitService(HomeService.class).getRecommendList(isHome, channelCode, start);
     }
 }

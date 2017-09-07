@@ -7,7 +7,7 @@ package com.cbl.gankarms.app;
 
 public interface EventBusTags {
     String AROUTER_PATH_MAIN = "/Main/Main";
-    String AROUTER_PATH_TEST = "/Main/Test";
+
 
     String ACTIVITY_FRAGMENT_REPLACE = "ActivityFragmentReplace";
 

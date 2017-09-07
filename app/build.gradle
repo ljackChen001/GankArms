@@ -33,11 +33,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
     lintOptions {
         disable 'InvalidPackage'
         disable "ResourceType"
         abortOnError false
     }
+
+
 }
 
 dependencies {
@@ -64,7 +67,7 @@ dependencies {
     compile rootProject.ext.dependencies["videoplayer"]
     compile rootProject.ext.dependencies["GSYVideoPlayer"]
     compile rootProject.ext.dependencies["vlayout"]
-
+    compile rootProject.ext.dependencies["paginate"]
     //test
     testCompile rootProject.ext.dependencies["junit"]
     debugCompile rootProject.ext.dependencies["leakcanary-debug"]

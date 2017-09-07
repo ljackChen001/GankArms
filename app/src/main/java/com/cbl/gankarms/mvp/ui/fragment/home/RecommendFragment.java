@@ -3,7 +3,7 @@ package com.cbl.gankarms.mvp.ui.fragment.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,15 +14,11 @@ import android.widget.TextView;
 import com.cbl.gankarms.R;
 import com.cbl.gankarms.di.component.DaggerRecommendComponent;
 import com.cbl.gankarms.di.module.RecommendModule;
-import com.cbl.gankarms.mvp.model.bean.RecommendBean;
-import com.cbl.gankarms.mvp.ui.adapter.ContListAdapter;
-import com.cbl.gankarms.mvp.ui.adapter.MoreContListAdapter;
-import com.cbl.gankarms.mvp.ui.adapter.ShootOffActivityAdapter;
-import com.cbl.gankarms.mvp.ui.adapter.TagListAdapter;
 import com.cbl.gankarms.mvp.ui.adapter.helper.RecommendAdapter;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
+import com.paginate.Paginate;
 
 import butterknife.BindView;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
@@ -33,13 +29,24 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
 /**
  * 推荐
  */
-public class RecommendFragment extends BaseFragment<RecommendPresenter> implements RecommendContract.View {
+public class RecommendFragment extends BaseFragment<RecommendPresenter> implements RecommendContract.View,
+        SwipeRefreshLayout.OnRefreshListener {
 
 
     @BindView(R.id.tv)
     TextView tv;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    private boolean isLoadingMore;
+    private Paginate mPaginate;
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        JCVideoPlayer.releaseAllVideos();
+    }
 
     public static RecommendFragment newInstance() {
         RecommendFragment fragment = new RecommendFragment();
@@ -63,14 +70,7 @@ public class RecommendFragment extends BaseFragment<RecommendPresenter> implemen
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        tv.setOnClickListener(v -> mPresenter.getRecommendList("1", "0"));
-
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        JCVideoPlayer.releaseAllVideos();
+        mPresenter.getRecommendList(true);
     }
 
     /**
@@ -93,12 +93,17 @@ public class RecommendFragment extends BaseFragment<RecommendPresenter> implemen
 
     @Override
     public void showLoading() {
-
+        mSwipeRefreshLayout.setRefreshing(true);
+        mSwipeRefreshLayout.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
     }
 
     @Override
     public void hideLoading() {
-
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -118,94 +123,57 @@ public class RecommendFragment extends BaseFragment<RecommendPresenter> implemen
 
     }
 
-
     @Override
-    public void getRecommendSuccess(RecommendBean dataList) {
-    }
-
-
-    @Override
-    public void getContListSuccess() {
-
+    public void startLoadMore() {
+        isLoadingMore = true;
     }
 
     @Override
-    public void setAdapter(ContListAdapter mAdapter) {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(linearLayoutManager);
+    public void endLoadMore() {
+        isLoadingMore = false;
+    }
+
+    @Override
+    public void setAdapter(RecommendAdapter mAdapter) {
         mRecyclerView.setAdapter(mAdapter);
+        initRecycleView();
+//        initPaginate();
     }
+
+
+    private void initRecycleView() {
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        ArmsUtils.configRecycleView(mRecyclerView, new LinearLayoutManager(getActivity()));
+    }
+
+    private void initPaginate() {
+        if (mPaginate == null) {
+            Paginate.Callbacks callbacks = new Paginate.Callbacks() {
+                @Override
+                public void onLoadMore() {
+                    mPresenter.getRecommendList(false);
+                }
+
+                @Override
+                public boolean isLoading() {
+                    return isLoadingMore;
+                }
+
+                @Override
+                public boolean hasLoadedAllItems() {
+                    return false;
+                }
+            };
+            mPaginate = Paginate.with(mRecyclerView, callbacks)
+                    .setLoadingTriggerThreshold(0).build();
+            mPaginate.setHasMoreDataToLoad(false);
+        }
+    }
+
 
     @Override
-    public void setTagAdapter(TagListAdapter mAdapter) {
-        GridLayoutManager manager = new GridLayoutManager(getActivity(), 6, GridLayoutManager.VERTICAL, false);
-
-        //        FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager();
-        //        flexboxLayoutManager.setFlexWrap(FlexWrap.WRAP);
-        //        flexboxLayoutManager.setFlexDirection(FlexDirection.ROW);
-        //        flexboxLayoutManager.setAlignItems(AlignItems.STRETCH);
-        //        flexboxLayoutManager.setJustifyContent(JustifyContent.FLEX_START);
-        //        mRecyclerView.setLayoutManager(flexboxLayoutManager);
-        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                return manager.getSpanCount();
-            }
-        });
-        mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
+    public void onRefresh() {
+        mPresenter.getRecommendList(true);
     }
-
-    @Override
-    public void setShootOffActivityAdapter(ShootOffActivityAdapter mAdapter) {
-        //设置布局管理器
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void setMoreContListAdapter(MoreContListAdapter mAdapter) {
-        //设置布局管理器
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void setMyAdapter(RecommendAdapter mAdapter) {
-//        FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager();
-//        flexboxLayoutManager.setFlexWrap(FlexWrap.WRAP_REVERSE);
-//        flexboxLayoutManager.setFlexDirection(FlexDirection.ROW);
-//        flexboxLayoutManager.setAlignItems(AlignItems.STRETCH);
-//        flexboxLayoutManager.setJustifyContent(JustifyContent.FLEX_START);
-//        mRecyclerView.setLayoutManager(flexboxLayoutManager);
-        //设置布局管理器
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(linearLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-        //        initRecyclerView();
-        //        mRecyclerView.setAdapter(mAdapter);
-        //        mAdapter.notifyDataSetChanged();
-        //        mAdapter.setMultiTypeDelegate(new MultiTypeDelegate<MutiTypeTitleEntity>() {
-        //            @Override
-        //            protected int getItemType(MutiTypeTitleEntity mutiTypeTitleEntity) {
-        //                if (mutiTypeTitleEntity.getItemType() == 13) {
-        //                    LogUtils.debugInfo("----------------------");
-        //                    LinearLayoutManager manager = new LinearLayoutManager(getActivity(),
-        //                            LinearLayoutManager.HORIZONTAL, false);
-        //                    mRecyclerView.setLayoutManager(manager);
-        //                    mRecyclerView.setAdapter(mAdapter);
-        //                }
-        //                return 13;
-        //            }
-        //        });
-    }
-
 
 }

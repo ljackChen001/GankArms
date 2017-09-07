@@ -7,6 +7,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
 
 /**
  * Created by chenbaolin on 2017/8/23.
@@ -14,7 +15,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class RxUtils {
 
-    private RxUtils() {}
+    private RxUtils() {
+    }
 
     public static <T> ObservableTransformer<T, T> applySchedulers(final IView view) {
         return new ObservableTransformer<T, T>() {
@@ -22,6 +24,7 @@ public class RxUtils {
             public Observable<T> apply(Observable<T> observable) {
                 //隐藏进度条
                 return observable.subscribeOn(Schedulers.io())
+                        .retryWhen(new RetryWithDelay(3,2))
                         .doOnSubscribe(disposable -> {
                             view.showLoading();//显示进度条
                         })
@@ -32,4 +35,5 @@ public class RxUtils {
             }
         };
     }
+
 }

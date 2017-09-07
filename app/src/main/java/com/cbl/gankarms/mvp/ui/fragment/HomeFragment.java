@@ -147,7 +147,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                 mTitle.add(categoryList.get(i).getName());
             }
 
-            fragmentList.add(new RecommendFragment());
+            fragmentList.add(RecommendFragment.newInstance());
             fragmentList.add(new SimilarFragment());
             fragmentList.add(new SimilarFragment());
             fragmentList.add(new SimilarFragment());

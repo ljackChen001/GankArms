@@ -86,7 +86,7 @@ ext {
             "bottom-navigation"       : 'com.aurelhubert:ahbottomnavigation:2.0.6',
             "status-bar"              : 'com.gyf.barlibrary:barlibrary:2.2.8',
             "videoplayer"             : 'fm.jiecao:jiecaovideoplayer:5.8.1',
-            "GSYVideoPlayer"             : 'com.shuyu:GSYVideoPlayer:2.0.4'
+            "GSYVideoPlayer"          : 'com.shuyu:GSYVideoPlayer:2.0.4'
 
     ]
 
