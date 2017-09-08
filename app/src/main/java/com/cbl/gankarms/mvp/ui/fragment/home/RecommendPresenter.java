@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.schedulers.Schedulers;
@@ -108,34 +109,21 @@ public class RecommendPresenter extends BasePresenter<RecommendContract.Model, R
                 .subscribe(new ErrorHandleSubscriber<RecommendBean>(mErrorHandler) {
                     @Override
                     public void onNext(@NonNull RecommendBean dataListBeen) {
-                        for (int i = 0; i < dataListBeen.getDataList().size(); i++) {
-                            String nodeType = dataListBeen.getDataList().get(i).getNodeType();
-                            if (nodeType.equals("13")) {
-                                if (pullToRefresh) {
-                                    dataList.addAll(0, dataListBeen.getDataList().get(i).getContList());
-                                } else {
-                                    dataList.addAll(dataListBeen.getDataList().get(i).getContList());
-                                    mAdapter.loadMoreComplete();
-                                }
-                                mAdapter.notifyType1(dataList);
-                            }
-                            if (nodeType.equals("14")) {
-                                //TODO 这里后面来处理
-                                //                                tagListBean = new ArrayList<>();
-                                //                                tagListBean.addAll(dataListBeen.getDataList().get(i)
-                                //                                        .getTagList());
-                                //                                mAdapter.notifyType2(tagListBean);
-                            }
-                            if (nodeType.equals("12")) {
-                                //                                activityListBean = new ArrayList<>();
-                                //                                activityListBean.addAll(dataListBeen.getDataList()
-                                // .get(i)
-                                //                                        .getActivityList());
-                                //                                mAdapter.notifyType3(activityListBean);
-                            }
-                        }
-                    }
 
+                        Observable.range(0, dataListBeen.getDataList().size()).distinct().sorted().subscribe(i ->
+
+                                Observable.just(dataListBeen.getDataList().get(i).getNodeType()).contains("13").subscribe
+                                        (aBoolean -> {
+                                            if (aBoolean) {
+                                                if (pullToRefresh) {
+                                                    dataList.addAll(0,dataListBeen.getDataList().get(i).getContList());
+                                                } else {
+                                                    dataList.addAll(dataListBeen.getDataList().get(i).getContList());
+                                                }
+                                                mAdapter.notifyType1(dataList);
+                                            }
+                                        }));
+                    }
                 });
     }
 

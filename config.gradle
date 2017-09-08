@@ -17,7 +17,8 @@ ext {
             butterknifeSdkVersion   : "8.8.1",
             rxlifecycle2SdkVersion  : "2.1.0",
             espressoSdkVersion      : "2.2.2",
-            canarySdkVersion        : "1.5.1"
+            canarySdkVersion        : "1.5.1",
+            smartRefreshVersion     : "1.0.3"
     ]
     dependencies = [
             //support
@@ -86,7 +87,9 @@ ext {
             "bottom-navigation"       : 'com.aurelhubert:ahbottomnavigation:2.0.6',
             "status-bar"              : 'com.gyf.barlibrary:barlibrary:2.2.8',
             "videoplayer"             : 'fm.jiecao:jiecaovideoplayer:5.8.1',
-            "GSYVideoPlayer"          : 'com.shuyu:GSYVideoPlayer:2.0.4'
+            "GSYVideoPlayer"          : 'com.shuyu:GSYVideoPlayer:2.0.4',
+            "SmartRefreshLayout"      : "com.scwang.smartrefresh:SmartRefreshLayout:${version["smartRefreshVersion"]}",
+            "SmartRefreshHeader"      : "com.scwang.smartrefresh:SmartRefreshHeader:${version["smartRefreshVersion"]}"
 
     ]
 

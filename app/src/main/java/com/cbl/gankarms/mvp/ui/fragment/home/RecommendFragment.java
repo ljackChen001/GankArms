@@ -3,7 +3,6 @@ package com.cbl.gankarms.mvp.ui.fragment.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,29 +17,32 @@ import com.cbl.gankarms.mvp.ui.adapter.helper.RecommendAdapter;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
-import com.paginate.Paginate;
+import com.scwang.smartrefresh.header.MaterialHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
 import butterknife.BindView;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
+import static com.cbl.gankarms.R.id.refreshLayout;
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
 
 /**
  * 推荐
  */
-public class RecommendFragment extends BaseFragment<RecommendPresenter> implements RecommendContract.View,
-        SwipeRefreshLayout.OnRefreshListener {
+public class RecommendFragment extends BaseFragment<RecommendPresenter> implements RecommendContract.View {
 
 
     @BindView(R.id.tv)
     TextView tv;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
-    @BindView(R.id.swipe_refresh)
-    SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(refreshLayout)
+    RefreshLayout mRefreshLayout;
     private boolean isLoadingMore;
-    private Paginate mPaginate;
 
     @Override
     public void onPause() {
@@ -93,17 +95,17 @@ public class RecommendFragment extends BaseFragment<RecommendPresenter> implemen
 
     @Override
     public void showLoading() {
-        mSwipeRefreshLayout.setRefreshing(true);
-        mSwipeRefreshLayout.setColorSchemeResources(
-                android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+        //        mSwipeRefreshLayout.setRefreshing(true);
+        //        mSwipeRefreshLayout.setColorSchemeResources(
+        //                android.R.color.holo_blue_bright,
+        //                android.R.color.holo_green_light,
+        //                android.R.color.holo_orange_light,
+        //                android.R.color.holo_red_light);
     }
 
     @Override
     public void hideLoading() {
-        mSwipeRefreshLayout.setRefreshing(false);
+        mRefreshLayout.finishRefresh(true);
     }
 
     @Override
@@ -131,49 +133,39 @@ public class RecommendFragment extends BaseFragment<RecommendPresenter> implemen
     @Override
     public void endLoadMore() {
         isLoadingMore = false;
+        mRefreshLayout.finishLoadmore(true);
     }
 
     @Override
     public void setAdapter(RecommendAdapter mAdapter) {
         mRecyclerView.setAdapter(mAdapter);
         initRecycleView();
-//        initPaginate();
+        //        initPaginate();
     }
 
 
     private void initRecycleView() {
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        ArmsUtils.configRecycleView(mRecyclerView, new LinearLayoutManager(getActivity()));
+        //设置 Header 为 Material风格
+        mRefreshLayout.setRefreshHeader(new MaterialHeader(getActivity()).setShowBezierWave(true));
+        //设置 Footer 为 球脉冲
+        mRefreshLayout.setRefreshFooter(new BallPulseFooter(getActivity()).setSpinnerStyle(SpinnerStyle.Scale));
+        mRefreshLayout.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                mPresenter.getRecommendList(false);
+            }
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                mPresenter.getRecommendList(true);
+            }
+        });
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setSmoothScrollbarEnabled(true);
+        layoutManager.setAutoMeasureEnabled(true);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setHasFixedSize(true);
+//        ArmsUtils.configRecycleView(mRecyclerView, new LinearLayoutManager(getActivity()));
     }
 
-    private void initPaginate() {
-        if (mPaginate == null) {
-            Paginate.Callbacks callbacks = new Paginate.Callbacks() {
-                @Override
-                public void onLoadMore() {
-                    mPresenter.getRecommendList(false);
-                }
-
-                @Override
-                public boolean isLoading() {
-                    return isLoadingMore;
-                }
-
-                @Override
-                public boolean hasLoadedAllItems() {
-                    return false;
-                }
-            };
-            mPaginate = Paginate.with(mRecyclerView, callbacks)
-                    .setLoadingTriggerThreshold(0).build();
-            mPaginate.setHasMoreDataToLoad(false);
-        }
-    }
-
-
-    @Override
-    public void onRefresh() {
-        mPresenter.getRecommendList(true);
-    }
 
 }

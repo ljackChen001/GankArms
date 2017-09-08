@@ -67,7 +67,8 @@ dependencies {
     compile rootProject.ext.dependencies["videoplayer"]
     compile rootProject.ext.dependencies["GSYVideoPlayer"]
     compile rootProject.ext.dependencies["vlayout"]
-    compile rootProject.ext.dependencies["paginate"]
+    compile rootProject.ext.dependencies["SmartRefreshLayout"]
+    compile rootProject.ext.dependencies["SmartRefreshHeader"]
     //test
     testCompile rootProject.ext.dependencies["junit"]
     debugCompile rootProject.ext.dependencies["leakcanary-debug"]
