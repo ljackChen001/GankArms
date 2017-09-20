@@ -1,3 +1,18 @@
+/**
+  * Copyright 2017 JessYan
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  *      http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package com.jess.arms.utils;
 
 import android.app.Activity;
@@ -36,8 +51,8 @@ import static com.jess.arms.integration.AppManager.START_ACTIVITY;
  * 一些框架常用的工具
  * <p>
  * Created by JessYan on 2015/11/23.
- * Contact with jess.yan.effort@gmail.com
- * Follow me on https://github.com/JessYanCoding
+ * Contact with <mailto:jess.yan.effort@gmail.com>
+ * Follow me on <https://github.com/JessYanCoding>
  * ================================================
  */
 public class ArmsUtils {
@@ -392,7 +407,6 @@ public class ArmsUtils {
     public static void configRecycleView(final RecyclerView recyclerView
             , RecyclerView.LayoutManager layoutManager) {
         recyclerView.setLayoutManager(layoutManager);
-
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

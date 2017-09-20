@@ -70,23 +70,6 @@ public class RecommendPresenter extends BasePresenter<RecommendContract.Model, R
             start += 10;
         }
         mAdapter.notifyLoading();
-        //        if (mAdapter == null) {
-        //            mAdapter = new ContListAdapter(R.layout.item_recommend_1, dataList);
-        //            mRootView.setAdapter(mAdapter);//设置Adapter
-        //        }
-        //        if (mTagListAdapter == null) {
-        //            mTagListAdapter = new TagListAdapter(R.layout.item_recommend_2, tagListBean);
-        //            mRootView.setTagAdapter(mTagListAdapter);//设置Adapter
-        //        }
-        //        if (shootOffActivityAdapter == null) {
-        //            shootOffActivityAdapter = new ShootOffActivityAdapter(R.layout.item_recommend_3, activityListBean);
-        //            mRootView.setShootOffActivityAdapter(shootOffActivityAdapter);//设置Adapter
-        //        }
-        //        if (moreContListAdapter == null) {
-        //            moreContListAdapter = new MoreContListAdapter(R.layout.item_recommend_4, dataList);
-        //            mRootView.setMoreContListAdapter(moreContListAdapter);//设置Adapter
-        //        }
-        //        mModel.getRecommendList(isHome, "", start).compose(RxUtils.applySchedulers(mRootView))
         mModel.getRecommendList("1", "", start)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))
@@ -116,7 +99,7 @@ public class RecommendPresenter extends BasePresenter<RecommendContract.Model, R
                                         (aBoolean -> {
                                             if (aBoolean) {
                                                 if (pullToRefresh) {
-                                                    dataList.addAll(0,dataListBeen.getDataList().get(i).getContList());
+                                                    dataList.addAll(0, dataListBeen.getDataList().get(i).getContList());
                                                 } else {
                                                     dataList.addAll(dataListBeen.getDataList().get(i).getContList());
                                                 }

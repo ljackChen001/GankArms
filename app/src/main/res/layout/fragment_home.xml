@@ -12,8 +12,7 @@
         android:layout_height="200dp"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_behavior="@string/appbar_spring_behavior"
-        >
+        app:layout_behavior="@string/appbar_spring_behavior">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"

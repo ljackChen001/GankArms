@@ -1,5 +1,21 @@
+/**
+  * Copyright 2017 JessYan
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  *      http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package com.jess.arms.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,16 +40,23 @@ import io.reactivex.subjects.Subject;
 import static com.jess.arms.utils.ThirdViewUtil.convertAutoView;
 
 /**
- * 因为java只能单继承,所以如果有需要继承特定Activity的三方库,那你就需要自己自定义Activity
- * 继承于这个特定的Activity,然后按照将BaseActivity的格式,复制过去记住一定要实现{@link IActivity}
+ * ================================================
+ * 因为 Java 只能单继承,所以如果要用到需要继承特定 {@link Activity} 的三方库,那你就需要自己自定义 {@link Activity}
+ * 继承于这个特定的 {@link Activity},然后再按照 {@link BaseActivity} 的格式,将代码复制过去,记住一定要实现{@link IActivity}
+ *
+ * Created by JessYan on 22/03/2016
+ * Contact with <mailto:jess.yan.effort@gmail.com>
+ * Follow me on <https://github.com/JessYanCoding>
+ * ================================================
  */
 public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivity implements IActivity, ActivityLifecycleable {
     protected final String TAG = this.getClass().getSimpleName();
     private Unbinder mUnbinder;
+
     private final BehaviorSubject<ActivityEvent> mLifecycleSubject = BehaviorSubject.create();
+    public ImmersionBar mImmersionBar;
     @Inject
     protected P mPresenter;
-    public ImmersionBar mImmersionBar;
 
 
     @NonNull
@@ -47,6 +70,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
         View view = convertAutoView(name, context, attrs);
         return view == null ? super.onCreateView(name, context, attrs) : view;
     }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,12 +101,10 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
         if (mImmersionBar != null)
             mImmersionBar.destroy();
     }
-
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
         mImmersionBar.init();
     }
-
     /**
      * 是否使用eventBus,默认为使用(true)，
      *
@@ -95,7 +117,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
 
     /**
      * 这个Activity是否会使用Fragment,框架会根据这个属性判断是否注册{@link android.support.v4.app.FragmentManager.FragmentLifecycleCallbacks}
-     * 如果返回false,那意味着这个Activity不需要绑定Fragment,那你再在这个Activity中绑定继承于 {@link com.jess.arms.base.BaseFragment} 的Fragment将不起任何作用
+     * 如果返回false,那意味着这个Activity不需要绑定Fragment,那你再在这个Activity中绑定继承于 {@link BaseFragment} 的Fragment将不起任何作用
      *
      * @return
      */
@@ -103,6 +125,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     public boolean useFragment() {
         return true;
     }
+
 
     /**
      * 是否使用沉浸式
@@ -112,5 +135,4 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     protected boolean isImmersionBarEnabled() {
         return true;
     }
-
 }
